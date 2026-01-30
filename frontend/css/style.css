@@ -1,0 +1,102 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6fb;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-container {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+    padding: 40px 30px 30px 30px;
+}
+
+.auth-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: #2d3a4b;
+    font-weight: 600;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 6px;
+    color: #495464;
+    font-size: 1rem;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    border: 1px solid #dbe2ef;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #f9fafc;
+    transition: border 0.2s;
+}
+
+.auth-form input:focus {
+    border-color: #3f72af;
+    outline: none;
+}
+
+.auth-form .auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #3f72af;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.auth-form .auth-btn:hover {
+    background: #2d3a4b;
+}
+
+.auth-form .switch-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #3f72af;
+    text-decoration: none;
+    font-size: 0.98rem;
+    transition: color 0.2s;
+}
+
+.auth-form .switch-link:hover {
+    color: #112d4e;
+    text-decoration: underline;
+}
+
+/* Error and Success Messages */
+.auth-form .error-message {
+    color: #d7263d;
+    background: #ffeaea;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    font-size: 0.97rem;
+}
+
+.auth-form .success-message {
+    color: #218838;
+    background: #e6ffed;
+    border: 1px solid #b7e4c7;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    font-size: 0.97rem;
+}

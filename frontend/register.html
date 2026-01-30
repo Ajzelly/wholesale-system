@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <h2 class="auth-title">Register</h2>
+        <form id="registerForm" class="auth-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="auth-btn">Register</button>
+            <a href="login.html" class="switch-link">Already have an account? Login</a>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    document.getElementById('message').textContent = 'Registration successful!';
+                    document.getElementById('message').className = 'success-message';
+                } else {
+                    document.getElementById('message').textContent = result.error || 'Registration failed.';
+                    document.getElementById('message').className = 'error-message';
+                }
+            } catch (error) {
+                document.getElementById('message').textContent = 'An error occurred.';
+                document.getElementById('message').className = 'error-message';
+            }
+        });
+    </script>
+</body>
+</html>

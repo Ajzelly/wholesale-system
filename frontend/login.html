@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="auth-container">
+      <h2 class="auth-title">Login</h2>
+      <form
+        id="loginForm"
+        class="auth-form"
+        action="/login"
+        method="POST"
+        autocomplete="off"
+      >
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit" class="auth-btn">Login</button>
+        <a href="register.html" class="switch-link"
+          >Don't have an account? Register</a
+        >
+      </form>
+      <div id="message"></div>
+    </div>
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          // Example: Prevent default and show alert (replace with real logic)
+          // e.preventDefault();
+          // alert('Login submitted!');
+        });
+    </script>
+  </body>
+</html>
