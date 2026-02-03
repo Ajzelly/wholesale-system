@@ -78,11 +78,6 @@ function displayProducts(list) {
       </div>
     `;
 
-    // Add event to button: go to cart.html
-    const addBtn = div.querySelector('.add-btn');
-    addBtn.addEventListener('click', function() {
-      window.location.href = 'cart.html';
-    });
     productGrid.appendChild(div);
 
   });
