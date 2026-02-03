@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Products | Kimusho</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+
+  <script defer src="js/products.js"></script>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">kimusho<span>w/s</span></div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search products..." />
+    <button><i class="fas fa-search"></i></button>
+  </div>
+
+  <nav>
+    <a href="index.php">Home</a>
+    <a href="products.html" class="active">Products</a>
+    <a href="login.html">Login</a>
+    <a href="register.html" class="nav-btn outline">Register</a>
+  </nav>
+</header>
+
+
+<!-- PRODUCTS -->
+<section class="section-container">
+
+  <h2 class="section-title">Our Products</h2>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="grains">Grains</option>
+      <option value="oil">Cooking Oil</option>
+      <option value="sugar">Sugar</option>
+      <option value="vegetables">Vegetables</option>
+    </select>
+
+    <select id="priceFilter">
+      <option value="all">All Prices</option>
+      <option value="low">Below KSh 4,000</option>
+      <option value="mid">KSh 4,000 - 6,000</option>
+      <option value="high">Above KSh 6,000</option>
+    </select>
+
+  </div>
+
+
+  <!-- PRODUCT GRID -->
+  <div class="product-grid" id="productGrid">
+    <!-- JS loads products here -->
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Kimusho Wholesale System</p>
+</footer>
+
+</body>
+</html>
