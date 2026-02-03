@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - Wholesale System</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">Wholesale<span>Sys</span></div>
+      <div class="search-bar">
+        <input type="text" placeholder="I am shopping for..." />
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact Us</a>
+        <a href="login.html" class="nav-btn">Login</a>
+        <a href="register.html" class="nav-btn outline">Register</a>
+      </nav>
+    </header>
+
+    <section id="home" class="section-container">
+      <div class="hero-banner">
+        <h1>Best Wholesale Prices in Kenya</h1>
+        <p>Get the best deals on bulk orders directly from suppliers.</p>
+      </div>
+
+      <h2 class="section-title">Today's Deals</h2>
+
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="badge">Hot</div>
+          <img
+            src="assets/images/product1.jpg"
+            alt="Potatoes"
+            onerror="this.src = 'https://via.placeholder.com/200'"
+          />
+          <div class="product-info">
+            <h3>Premium Irish Potatoes (50kg)</h3>
+            <p class="price">KSh 3,500.00</p>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img
+            src="assets/images/product2.jpg"
+            alt="Cooking Oil"
+            onerror="this.src = 'https://via.placeholder.com/200'"
+          />
+          <div class="product-info">
+            <h3>Vegetable Cooking Oil (20L)</h3>
+            <p class="price">KSh 4,200.00</p>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <img
+            src="assets/images/product3.jpg"
+            alt="Rice"
+            onerror="this.src = 'https://via.placeholder.com/200'"
+          />
+          <div class="product-info">
+            <h3>Pishori Rice Grade 1 (25kg)</h3>
+            <p class="price">KSh 5,100.00</p>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="badge">Sale</div>
+          <img
+            src="assets/images/product4.jpg"
+            alt="Sugar"
+            onerror="this.src = 'https://via.placeholder.com/200'"
+          />
+          <div class="product-info">
+            <h3>Kabras Sugar (50kg)</h3>
+            <p class="price">KSh 6,800.00</p>
+            <button class="add-btn">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section-container bg-white">
+      <h2 class="section-title">About Us</h2>
+      <div class="content-wrapper">
+        <p>
+          Welcome to <strong>WholesaleSys</strong>, Kenya's premier B2B
+          wholesale platform. We bridge the gap between manufacturers and
+          retailers, ensuring you get the best market prices without the hassle
+          of middlemen.
+        </p>
+        <p>
+          Inspired by top logistics providers, our goal is to streamline your
+          supply chain with:
+        </p>
+        <ul style="margin-top: 10px; padding-left: 20px">
+          <li>Next-day delivery across Nairobi.</li>
+          <li>Verified quality products.</li>
+          <li>Secure payment options (M-Pesa & Card).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section-container">
+      <h2 class="section-title">Contact Us</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Get in Touch</h3>
+          <p>Have questions about bulk orders? Reach out to our team.</p>
+          <br />
+          <p><strong>📍 Location:</strong> Madaraka Estate, Nairobi</p>
+          <p><strong>📞 Phone:</strong> +254 700 123 456</p>
+          <p><strong>📧 Email:</strong> support@wholesalesys.co.ke</p>
+        </div>
+        <form class="contact-form">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <textarea placeholder="Message" rows="4" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Wholesale System. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
