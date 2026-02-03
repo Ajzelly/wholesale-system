@@ -1,41 +1,56 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Login</title>
     <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <div class="auth-container">
-      <h2 class="auth-title">Login</h2>
-      <form
-        id="loginForm"
-        class="auth-form"
-        action="/login"
-        method="POST"
-        autocomplete="off"
-      >
+</head>
+<body>
+<div class="auth-container">
+    <h2 class="auth-title">Login</h2>
+
+    <form id="loginForm" class="auth-form">
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" required autofocus />
+        <input type="text" id="username" required>
 
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" required>
 
         <button type="submit" class="auth-btn">Login</button>
-        <a href="register.html" class="switch-link"
-          >Don't have an account? Register</a
-        >
-      </form>
-      <div id="message"></div>
-    </div>
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          // Example: Prevent default and show alert (replace with real logic)
-          // e.preventDefault();
-          // alert('Login submitted!');
+        <a href="register.html" class="switch-link">Don't have an account? Register</a>
+    </form>
+
+    <div id="message"></div>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
         });
-    </script>
-  </body>
+
+        const result = await response.json();
+
+        if (response.ok) {
+            document.getElementById('message').textContent = 'Login successful!';
+            document.getElementById('message').className = 'success-message';
+        } else {
+            document.getElementById('message').textContent = result.error || 'Login failed';
+            document.getElementById('message').className = 'error-message';
+        }
+    } catch (err) {
+        document.getElementById('message').textContent = 'Server error';
+        document.getElementById('message').className = 'error-message';
+    }
+});
+</script>
+</body>
 </html>
