@@ -7,7 +7,7 @@ function renderCart() {
   cartItems.innerHTML = '';
 
   if (cart.length === 0) {
-    cartItems.innerHTML = '<p>Your cart is empty.</p>';
+    cartItems.innerHTML = '<div style="text-align:center;font-size:1.05rem;margin:18px auto;max-width:260px;">Your cart is empty <span style="font-size:1.5rem;">😢</span></div>';
     document.getElementById('cart-total').textContent = 'KSh 0.00';
     return;
   }

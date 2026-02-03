@@ -7,29 +7,28 @@
 </head>
 <body>
     <header>
-        <h1>Checkout</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+        <h1 style="text-align:center;">Checkout</h1>
     </header>
     <main>
-        <section id="order-summary">
-            <!-- Order summary will be dynamically rendered here -->
-        </section>
+        <div style="display:flex; justify-content:flex-start; max-width:700px; margin:0 auto;">
+            <button type="button" onclick="window.history.back()" style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
+        </div>
         <form id="checkout-form">
             <h2>Shipping Information</h2>
             <input type="text" name="name" placeholder="Full Name" required>
-            <input type="text" name="address" placeholder="Address" required>
-            <input type="text" name="city" placeholder="City" required>
-            <input type="text" name="zip" placeholder="ZIP Code" required>
-            <h2>Payment Information</h2>
-            <input type="text" name="card" placeholder="Card Number" required>
-            <input type="text" name="expiry" placeholder="Expiry Date (MM/YY)" required>
-            <input type="text" name="cvv" placeholder="CVV" required>
+            <input type="text" name="town" placeholder="Town" required>
+            <h2>Payment Method</h2>
+            <label style="margin-right:20px;">
+                <input type="radio" name="payment" value="cash" required> Cash
+            </label>
+            <label>
+                <input type="radio" name="payment" value="mpesa" required> Mpesa
+            </label>
             <button type="submit">Place Order</button>
         </form>
+        <section id="order-summary">
+            <!-- Order summary will be dynamically rendered here -->
+        </section>
     </main>
     <script src="js/checkout.js"></script>
 </body>
