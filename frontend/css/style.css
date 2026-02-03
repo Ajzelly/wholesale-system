@@ -1,33 +1,4 @@
 /* =========================
-   DARK BLUE/WHITE THEME FOR CART & CHECKOUT
-========================= */
-#cart-items, #order-summary, #cart-summary, #checkout-form {
-    background: #fff;
-    color: #1a2746;
-}
-body, html {
-    background: #1a2746;
-}
-header, nav, .navbar, h1, h2, h3, .section-title {
-    background: #1a2746 !important;
-    color: #fff !important;
-}
-#cart-summary button, #checkout-form button[type="submit"], #checkout-form button[type="button"], main button[type="button"] {
-    background: #1a2746 !important;
-    color: #fff !important;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 24px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.2s;
-}
-#cart-summary button:hover, #checkout-form button[type="submit"]:hover, #checkout-form button[type="button"]:hover, main button[type="button"]:hover {
-    background: #3f72af !important;
-}
-/* =========================
    CART & CHECKOUT STYLES
 ========================= */
 
