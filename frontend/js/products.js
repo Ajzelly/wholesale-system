@@ -53,43 +53,39 @@ function displayProducts(list) {
     return;
   }
 
-
   list.forEach(product => {
+
     const div = document.createElement("div");
     div.className = "product-card";
+
     div.innerHTML = `
+
       <img src="${product.image}"
            onerror="this.src='https://via.placeholder.com/200'">
+
       <div class="product-info">
+
         <h3>${product.name}</h3>
+
         <p class="price">
           KSh ${product.price.toLocaleString()}
         </p>
-        <button class="add-btn">Add to Cart</button>
+
+        <button class="add-btn">
+          Add to Cart
+        </button>
+
       </div>
     `;
-    // Add to Cart logic
+
+    // Add event to button: go to cart.html
     const addBtn = div.querySelector('.add-btn');
-    addBtn.addEventListener('click', () => {
-      addToCart(product);
-      addBtn.textContent = 'Added!';
-      setTimeout(() => addBtn.textContent = 'Add to Cart', 1000);
+    addBtn.addEventListener('click', function() {
+      window.location.href = 'cart.html';
     });
     productGrid.appendChild(div);
-  });
-}
 
-// Add to Cart function (shared with cart.js)
-function addToCart(product) {
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const existing = cart.find(item => item.id === product.id);
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ ...product, qty: 1 });
-  }
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
+  });
 
 }
 
