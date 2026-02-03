@@ -19,9 +19,10 @@
             <!-- Order summary will be dynamically rendered here -->
         </section>
         <form id="checkout-form">
+            <button type="button" onclick="window.history.back()" style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
             <h2>Shipping Information</h2>
             <input type="text" name="name" placeholder="Full Name" required>
-            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="town" placeholder="Town" required>
             <h2>Payment Method</h2>
             <label style="margin-right:20px;">
                 <input type="radio" name="payment" value="cash" required> Cash
