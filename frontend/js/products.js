@@ -78,12 +78,25 @@ function displayProducts(list) {
       </div>
     `;
 
-    // Add event to button: go to cart.html
+    // Add event to button: add/increment in cart
     const addBtn = div.querySelector('.add-btn');
     addBtn.addEventListener('click', function() {
-      window.location.href = 'cart.html';
+      addToCart(product);
+      addBtn.textContent = 'Added!';
+      setTimeout(() => addBtn.textContent = 'Add to Cart', 1000);
     });
     productGrid.appendChild(div);
+// Add to Cart function (shared with cart.js)
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const existing = cart.find(item => item.id === product.id);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
 
   });
 
