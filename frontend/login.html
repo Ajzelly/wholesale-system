@@ -31,26 +31,53 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     const password = document.getElementById('password').value;
 
     try {
+
         const response = await fetch('/api/login', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
             body: JSON.stringify({ username, password })
         });
 
         const result = await response.json();
 
         if (response.ok) {
+
+            // Save login data
+            if (result.token) {
+                localStorage.setItem("token", result.token);
+            }
+
+            if (result.user) {
+                localStorage.setItem("user", JSON.stringify(result.user));
+            }
+
             document.getElementById('message').textContent = 'Login successful!';
             document.getElementById('message').className = 'success-message';
+
+            // Go to dashboard
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 800);
+
         } else {
-            document.getElementById('message').textContent = result.error || 'Login failed';
+
+            document.getElementById('message').textContent =
+                result.error || 'Login failed';
+
             document.getElementById('message').className = 'error-message';
+
         }
+
     } catch (err) {
+
         document.getElementById('message').textContent = 'Server error';
         document.getElementById('message').className = 'error-message';
+
     }
 });
 </script>
+
 </body>
 </html>

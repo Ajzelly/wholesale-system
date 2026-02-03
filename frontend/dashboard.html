@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>User Dashboard</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <script defer src="js/dashboard.js"></script>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+  <div class="logo">kimusho<span>w/s</span></div>
+
+  <nav>
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="products.html">Shop</a>
+    <a href="cart.html">Cart</a>
+    <a href="profile.html">Profile</a>
+    <a href="#" id="logoutBtn">Logout</a>
+  </nav>
+
+</header>
+
+
+<section class="section-container">
+
+  <h2>Welcome, <span id="username">User</span> 👋</h2>
+
+
+  <!-- STATS -->
+  <div class="dashboard-stats">
+
+    <div class="stat-card">
+      <h3 id="orderCount">0</h3>
+      <p>Orders</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="cartCount">0</h3>
+      <p>Cart Items</p>
+    </div>
+
+    <div class="stat-card">
+      <h3 id="pendingCount">0</h3>
+      <p>Pending</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>KSh <span id="balance">0</span></h3>
+      <p>Balance</p>
+    </div>
+
+  </div>
+
+
+  <!-- RECENT ORDERS -->
+  <h3>Recent Orders</h3>
+
+  <table class="dashboard-table">
+
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+
+    <tbody id="ordersTable">
+      <!-- Loaded by JS -->
+    </tbody>
+
+  </table>
+
+
+</section>
+
+
+</body>
+</html>
