@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+	<nav class="admin-nav">
+		<div class="logo">Wholesale Admin</div>
+		<ul>
+			<li><a href="dashboard.html" class="active">Dashboard</a></li>
+			<li><a href="orders.html">Orders</a></li>
+			<li><a href="products.html">Products</a></li>
+			<li><a href="users.html">Users</a></li>
+			<li><a href="reports.html">Reports</a></li>
+			<li><a href="login.html">Logout</a></li>
+		</ul>
+	</nav>
+
+	<main class="dashboard-main">
+		<section class="dashboard-summary">
+			<div class="summary-card">
+				<h3>Total Orders</h3>
+				<p id="total-orders">--</p>
+			</div>
+			<div class="summary-card">
+				<h3>Total Products</h3>
+				<p id="total-products">--</p>
+			</div>
+			<div class="summary-card">
+				<h3>Total Users</h3>
+				<p id="total-users">--</p>
+			</div>
+			<div class="summary-card">
+				<h3>Revenue</h3>
+				<p id="total-revenue">--</p>
+			</div>
+		</section>
+
+		<section class="dashboard-table">
+			<h2>Recent Orders</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Order ID</th>
+						<th>User</th>
+						<th>Date</th>
+						<th>Status</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody id="recent-orders">
+					<!-- Orders will be populated by JS -->
+				</tbody>
+			</table>
+		</section>
+	</main>
+
+	<script src="js/dashboard.js"></script>
+</body>
+</html>
