@@ -136,5 +136,36 @@
     <footer>
       <p>&copy; 2026 Wholesale System. All rights reserved.</p>
     </footer>
+
+    <script>
+      // Add to Cart logic for index.html
+      function addToCart(product) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.id === product.id);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          cart.push({ ...product, qty: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+      // Map product info to buttons
+      document.addEventListener('DOMContentLoaded', function() {
+        const products = [
+          { id: 1, name: "Premium Irish Potatoes (50kg)", price: 3500, image: "assets/images/product1.jpg" },
+          { id: 2, name: "Vegetable Cooking Oil (20L)", price: 4200, image: "assets/images/product2.jpg" },
+          { id: 3, name: "Pishori Rice Grade 1 (25kg)", price: 5100, image: "assets/images/product3.jpg" },
+          { id: 4, name: "Kabras Sugar (50kg)", price: 6800, image: "assets/images/product4.jpg" }
+        ];
+        const btns = document.querySelectorAll('.add-btn');
+        btns.forEach((btn, i) => {
+          btn.addEventListener('click', function() {
+            addToCart(products[i]);
+            btn.textContent = 'Added!';
+            setTimeout(() => btn.textContent = 'Add to Cart', 1000);
+          });
+        });
+      });
+    </script>
   </body>
 </html>
