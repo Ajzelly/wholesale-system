@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Wholesale System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1 style="text-align:center;">Checkout</h1>
+    </header>
+    <main>
+        <div style="display:flex; justify-content:flex-start; max-width:700px; margin:0 auto;">
+            <button type="button" onclick="window.history.back()" style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
+        </div>
+        <form id="checkout-form">
+            <h2>Shipping Information</h2>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="town" placeholder="Town" required>
+            <h2>Payment Method</h2>
+            <label style="margin-right:20px;">
+                <input type="radio" name="payment" value="cash" required> Cash
+            </label>
+            <label>
+                <input type="radio" name="payment" value="mpesa" required> Mpesa
+            </label>
+            <button type="submit">Place Order</button>
+        </form>
+        <section id="order-summary">
+            <!-- Order summary will be dynamically rendered here -->
+        </section>
+    </main>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

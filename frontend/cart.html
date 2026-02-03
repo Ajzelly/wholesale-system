@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - Wholesale System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <div style="display: flex; justify-content: center; gap: 60px; align-items: flex-end; margin-top: 30px; margin-bottom: 10px;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="index.html" title="Home" style="color:#3f72af;font-size:2rem;"><i class="fas fa-home"></i></a>
+                <span style="margin-top:6px; color:#3f72af; font-size:1rem;">Home</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="products.html" title="Products" style="color:#3f72af;font-size:2rem;"><i class="fas fa-box"></i></a>
+                <span style="margin-top:6px; color:#3f72af; font-size:1rem;">Products</span>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+                <a href="profile.html" title="Profile" style="color:#3f72af;font-size:2rem;"><i class="fas fa-user"></i></a>
+                <span style="margin-top:6px; color:#3f72af; font-size:1rem;">Profile</span>
+            </div>
+        </div>
+        <h1 style="text-align:center;">Your Cart</h1>
+    </header>
+    <main>
+        <button type="button" onclick="window.history.back()" style="margin: 30px 0 18px 0; background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
+        <section id="cart-items">
+            <!-- Cart items will be dynamically rendered here -->
+        </section>
+        <div id="cart-summary">
+            <p>Total: <span id="cart-total">$0.00</span></p>
+            <button id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </main>
+    <script src="js/cart.js"></script>
+</body>
+</html>
