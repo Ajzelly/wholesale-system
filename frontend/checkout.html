@@ -7,19 +7,13 @@
 </head>
 <body>
     <header>
-        <h1>Checkout</h1>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="products.html">Products</a>
-            <a href="cart.html">Cart</a>
-        </nav>
+        <h1 style="text-align:center;">Checkout</h1>
     </header>
     <main>
-        <section id="order-summary">
-            <!-- Order summary will be dynamically rendered here -->
-        </section>
-        <form id="checkout-form">
+        <div style="display:flex; justify-content:flex-start; max-width:700px; margin:0 auto;">
             <button type="button" onclick="window.history.back()" style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
+        </div>
+        <form id="checkout-form">
             <h2>Shipping Information</h2>
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="text" name="town" placeholder="Town" required>
@@ -32,6 +26,9 @@
             </label>
             <button type="submit">Place Order</button>
         </form>
+        <section id="order-summary">
+            <!-- Order summary will be dynamically rendered here -->
+        </section>
     </main>
     <script src="js/checkout.js"></script>
 </body>
