@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Wholesale System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+    </header>
+    <main>
+        <section id="order-summary">
+            <!-- Order summary will be dynamically rendered here -->
+        </section>
+        <form id="checkout-form">
+            <h2>Shipping Information</h2>
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="zip" placeholder="ZIP Code" required>
+            <h2>Payment Information</h2>
+            <input type="text" name="card" placeholder="Card Number" required>
+            <input type="text" name="expiry" placeholder="Expiry Date (MM/YY)" required>
+            <input type="text" name="cvv" placeholder="CVV" required>
+            <button type="submit">Place Order</button>
+        </form>
+    </main>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
