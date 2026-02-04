@@ -308,6 +308,12 @@ html {
     transition: color 0.2s;
 }
 
+.navbar nav a.active {
+  color: #007aff;     /* the color you want when active */
+  font-weight: bold;  /* optional */
+  border-bottom: 2px solid #007aff; /* optional underline highlight */
+}
+
 .navbar nav a:hover {
     color: #3f72af;
 }

@@ -60,3 +60,11 @@ document.getElementById("logoutBtn")
     window.location.href = "login.html";
 
 });
+
+const currentPage = window.location.pathname.split("/").pop();
+
+  document.querySelectorAll("nav a").forEach(link => {
+    if (link.getAttribute("href") === currentPage) {
+      link.classList.add("active");
+    }
+  });
