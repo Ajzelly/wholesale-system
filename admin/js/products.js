@@ -1,169 +1,51 @@
-// ADMIN PRODUCTS SYSTEM
-
-let products = [];
-
-
-// ELEMENTS
 const form = document.getElementById("productForm");
 const table = document.getElementById("productTable");
 
-const idInput = document.getElementById("productId");
-const nameInput = document.getElementById("name");
-const priceInput = document.getElementById("price");
-const categoryInput = document.getElementById("category");
-const imageInput = document.getElementById("image");
-
-
-// LOAD DATA
-function loadProducts() {
-
-  const data = localStorage.getItem("admin_products");
-
-  if (data) {
-    products = JSON.parse(data);
-  }
-
-  renderTable();
-}
-
-
-// SAVE DATA
-function saveProducts() {
-  localStorage.setItem(
-    "admin_products",
-    JSON.stringify(products)
-  );
-}
-
-
-// DISPLAY TABLE
-function renderTable() {
+async function loadProducts() {
+  const res = await fetch("/api/products");
+  const products = await res.json();
 
   table.innerHTML = "";
 
-  products.forEach((p, index) => {
-
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-
-      <td>
-        <img src="${p.image}"
-             width="50"
-             height="50"
-             style="object-fit:cover">
-      </td>
-
-      <td>${p.name}</td>
-
-      <td>KSh ${p.price}</td>
-
-      <td>${p.category}</td>
-
-      <td>
-
-        <button class="edit-btn"
-          onclick="editProduct(${index})">
-          Edit
-        </button>
-
-        <button class="delete-btn"
-          onclick="deleteProduct(${index})">
-          Delete
-        </button>
-
-      </td>
+  products.forEach(p => {
+    table.innerHTML += `
+      <tr>
+        <td><img src="/uploads/${p.image || 'placeholder.jpg'}" alt="${p.name}" width="50"></td>
+        <td>${p.name}</td>
+        <td>KSh ${Number(p.price).toLocaleString()}</td>
+        <td>${p.category_id}</td>
+        <td>${p.is_hot == 1 ? '🔥' : ''} ${p.is_sale == 1 ? '💸' : ''}</td>
+        <td><button onclick="deleteProduct(${p.id})">Delete</button></td>
+      </tr>
     `;
-
-    table.appendChild(row);
-
   });
-
 }
 
-
-// ADD / UPDATE
-form.addEventListener("submit", function(e){
-
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const id = idInput.value;
+  const data = new FormData(form);
+  data.append("is_hot", document.getElementById('is_hot').checked ? 1 : 0);
+  data.append("is_sale", document.getElementById('is_sale').checked ? 1 : 0);
 
-  const name = nameInput.value.trim();
-  const price = priceInput.value;
-  const category = categoryInput.value;
+  await fetch("/api/products", {
+    method: "POST",
+    body: data
+  });
 
-  let image = "https://via.placeholder.com/150";
-
-
-  if (imageInput.files[0]) {
-    image = URL.createObjectURL(
-      imageInput.files[0]
-    );
-  }
-
-
-  // NEW PRODUCT
-  if (id === "") {
-
-    products.push({
-      name,
-      price,
-      category,
-      image
-    });
-
-  }
-
-  // UPDATE
-  else {
-
-    products[id] = {
-      name,
-      price,
-      category,
-      image
-    };
-
-  }
-
-
-  saveProducts();
-  renderTable();
-
+  alert("Saved");
   form.reset();
-  idInput.value = "";
-
+  loadProducts();
 });
 
+async function deleteProduct(id) {
+  if (!confirm("Delete product?")) return;
 
-// EDIT
-function editProduct(index) {
+  await fetch(`/api/products/${id}`, {
+    method: "DELETE"
+  });
 
-  const p = products[index];
-
-  idInput.value = index;
-  nameInput.value = p.name;
-  priceInput.value = p.price;
-  categoryInput.value = p.category;
-
+  loadProducts();
 }
 
-
-// DELETE
-function deleteProduct(index) {
-
-  if (confirm("Delete this product?")) {
-
-    products.splice(index, 1);
-
-    saveProducts();
-    renderTable();
-
-  }
-
-}
-
-
-// INIT
 loadProducts();

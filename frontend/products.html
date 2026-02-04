@@ -2,28 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Our Products | Kimusho</title>
-
   <link rel="stylesheet" href="css/style.css" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
   />
-
-  <script defer src="js/products.js"></script>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">kimusho<span>w/s</span></div>
-
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search products..." />
-    <button><i class="fas fa-search"></i></button>
-  </div>
 
   <nav>
     <a href="index.html">Home</a>
@@ -33,45 +23,68 @@
   </nav>
 </header>
 
-
-<!-- PRODUCTS -->
 <section class="section-container">
 
   <h2 class="section-title">Our Products</h2>
 
-  <!-- FILTERS -->
-  <div class="filter-bar">
-
-    <select id="categoryFilter">
-      <option value="all">All Categories</option>
-      <option value="grains">Grains</option>
-      <option value="oil">Cooking Oil</option>
-      <option value="sugar">Sugar</option>
-      <option value="vegetables">Vegetables</option>
-    </select>
-
-    <select id="priceFilter">
-      <option value="all">All Prices</option>
-      <option value="low">Below KSh 4,000</option>
-      <option value="mid">KSh 4,000 - 6,000</option>
-      <option value="high">Above KSh 6,000</option>
-    </select>
-
-  </div>
-
-
-  <!-- PRODUCT GRID -->
   <div class="product-grid" id="productGrid">
-    <!-- JS loads products here -->
+    <!-- Products will load here -->
   </div>
 
 </section>
 
-
-<!-- FOOTER -->
 <footer>
   <p>&copy; 2026 Kimusho Wholesale System</p>
 </footer>
+
+<script>
+  async function loadProducts() {
+    try {
+      const res = await fetch('/api/products');
+      if (!res.ok) throw new Error('Failed to fetch products');
+
+      const products = await res.json();
+
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = '';
+
+      products.forEach(p => {
+        grid.innerHTML += `
+          <div class="product-card">
+
+            ${p.is_hot ? '<span class="badge hot">HOT</span>' : ''}
+            ${p.is_sale ? '<span class="badge sale">SALE</span>' : ''}
+
+            <img src="/uploads/${p.image || 'placeholder.jpg'}" alt="${p.name}" />
+
+            <h3>${p.name}</h3>
+            <p>KSh ${Number(p.price).toLocaleString()}</p>
+            <button class="add-btn" onclick="addToCart(${p.id}, '${p.name}', ${p.price}, '${p.image}')">Add to Cart</button>
+
+          </div>
+        `;
+      });
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById('productGrid').innerHTML = '<p>Failed to load products.</p>';
+    }
+  }
+
+  function addToCart(id, name, price, image) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id, name, price, image, qty: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`Added ${name} to cart.`);
+  }
+
+  document.addEventListener('DOMContentLoaded', loadProducts);
+</script>
 
 </body>
 </html>
