@@ -1,210 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kimusho Wholesalers - Home</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">kimusho<span>w/s</span></div>
-        <div class="search-bar">
-            <input type="text" placeholder="I am shopping for...">
-            <button><i class="fas fa-search"></i></button>
-        </div>
-        <nav id="nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#contact">Contact Us</a>
-            <a href="products.html">Products</a>
-            <a href="login.html" class="nav-btn" id="login-link">Login</a>
-            <a href="register.html" class="nav-btn outline" id="register-link">Register</a>
-        </nav>
-    </header>
+<header class="navbar">
+    <div class="logo">kimusho<span>w/s</span></div>
+    <div class="search-bar">
+        <input type="text" placeholder="I am shopping for..." />
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    <nav id="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact Us</a>
+        <a href="products.html">Products</a>
+        <a href="login.html" class="nav-btn" id="login-link">Login</a>
+        <a href="register.html" class="nav-btn outline" id="register-link">Register</a>
+    </nav>
+</header>
 
-    <section id="home" class="section-container">
-<<<<<<< HEAD
-      <div class="hero-banner">
+<section id="home" class="section-container">
+    <div class="hero-banner">
         <h1>Best Wholesale Prices in Kenya</h1>
         <p>Get the best deals on bulk orders directly from suppliers.</p>
-      </div>
+    </div>
 
-      <h2 class="section-title">Today's Deals</h2>
-       <a href="products.html">Products</a>
+    <h2 class="section-title">Today's Deals</h2>
+    
+    <!-- Replace static product cards with this dynamic container -->
+    <div class="product-grid" id="productGrid">
+        <!-- Products will be dynamically loaded here -->
+    </div>
+</section>
 
-      <div class="product-grid">
-        <div class="product-card">
-          <div class="badge">Hot</div>
-          <img
-            src="assets/images/product1.jpg"
-            alt="Potatoes"
-            onerror="this.src = 'https://via.placeholder.com/200'"
-          />
-          <div class="product-info">
-            <h3>Premium Irish Potatoes (50kg)</h3>
-            <p class="price">KSh 3,500.00</p>
-            <button class="add-btn">Add to Cart</button>
-          </div>
-=======
-        <div class="hero-banner">
-            <h1>Best Wholesale Prices in Kenya</h1>
-            <p>Get the best deals on bulk orders directly from suppliers.</p>
->>>>>>> 89b6be7bd750e465df1d9a121b2f07a9e78ca36e
+<section id="about" class="section-container bg-white">
+    <h2 class="section-title">About Us</h2>
+    <div class="content-wrapper">
+        <p>
+            Welcome to <strong>Kimusho Wholesalers</strong>, Kenya's premier B2B platform.
+            We bridge the gap between manufacturers and retailers, ensuring you get the best market prices.
+        </p>
+        <ul style="margin-top: 15px; padding-left: 20px;">
+            <li>Next-day delivery across Nairobi.</li>
+            <li>Verified quality products.</li>
+            <li>Secure payment options (M-Pesa & Card).</li>
+        </ul>
+    </div>
+</section>
+
+<section id="contact" class="section-container">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-grid">
+        <div class="contact-info">
+            <h3>Get in Touch</h3>
+            <p>📍 Location: Madaraka Estate, Nairobi</p>
+            <p>📞 Phone: +254 700 123 456</p>
+            <p>📧 Email: support@kimushowholesalers.co.ke</p>
         </div>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required />
+            <input type="email" placeholder="Your Email" required />
+            <textarea placeholder="Message" rows="4" required></textarea>
+            <button type="submit" class="auth-btn">Send Message</button>
+        </form>
+    </div>
+</section>
 
-        <h2 class="section-title">Today's Deals</h2>
-        
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="badge">Hot</div>
-                <img src="assets/images/product1.jpg" alt="Potatoes" onerror="this.src='https://via.placeholder.com/200'">
-                <div class="product-info">
-                    <h3>Premium Irish Potatoes (50kg)</h3>
-                    <p class="price">KSh 3,500.00</p>
-                    <button class="add-btn" data-id="1">Add to Cart</button>
-                </div>
-            </div>
+<footer>
+    <p>&copy; 2026 Kimusho Wholesalers. All rights reserved.</p>
+</footer>
 
-            <div class="product-card">
-                <img src="assets/images/product2.jpg" alt="Cooking Oil" onerror="this.src='https://via.placeholder.com/200'">
-                <div class="product-info">
-                    <h3>Vegetable Cooking Oil (20L)</h3>
-                    <p class="price">KSh 4,200.00</p>
-                    <button class="add-btn" data-id="2">Add to Cart</button>
-                </div>
-            </div>
+<script>
+    // 1. AUTHENTICATION HELPERS
+    function isLoggedIn() {
+        return localStorage.getItem('token') !== null && localStorage.getItem('user') !== null;
+    }
 
-            <div class="product-card">
-                <img src="assets/images/product3.jpg" alt="Rice" onerror="this.src='https://via.placeholder.com/200'">
-                <div class="product-info">
-                    <h3>Pishori Rice Grade 1 (25kg)</h3>
-                    <p class="price">KSh 5,100.00</p>
-                    <button class="add-btn" data-id="3">Add to Cart</button>
-                </div>
-            </div>
+    function updateNavbar() {
+        const nav = document.getElementById('nav-links');
+        if (isLoggedIn()) {
+            const user = JSON.parse(localStorage.getItem('user'));
+            document.getElementById('login-link').remove();
+            document.getElementById('register-link').remove();
 
-            <div class="product-card">
-                <div class="badge">Sale</div>
-                <img src="assets/images/product4.jpg" alt="Sugar" onerror="this.src='https://via.placeholder.com/200'">
-                <div class="product-info">
-                    <h3>Kabras Sugar (50kg)</h3>
-                    <p class="price">KSh 6,800.00</p>
-                    <button class="add-btn" data-id="4">Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    </section>
+            const userGreet = document.createElement('span');
+            userGreet.innerHTML = `Hi, <strong>${user.username}</strong>`;
+            userGreet.style.marginLeft = "15px";
 
-    <section id="about" class="section-container bg-white">
-        <h2 class="section-title">About Us</h2>
-        <div class="content-wrapper">
-            <p>Welcome to <strong>Kimusho Wholesalers</strong>, Kenya's premier B2B platform. We bridge the gap between manufacturers and retailers, ensuring you get the best market prices.</p>
-            <ul style="margin-top: 15px; padding-left: 20px;">
-                <li>Next-day delivery across Nairobi.</li>
-                <li>Verified quality products.</li>
-                <li>Secure payment options (M-Pesa & Card).</li>
-            </ul>
-        </div>
-    </section>
+            const logoutBtn = document.createElement('a');
+            logoutBtn.href = "#";
+            logoutBtn.className = "nav-btn outline";
+            logoutBtn.style.marginLeft = "10px";
+            logoutBtn.textContent = "Logout";
+            logoutBtn.onclick = function () {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.reload();
+            };
 
-    <section id="contact" class="section-container">
-        <h2 class="section-title">Contact Us</h2>
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h3>Get in Touch</h3>
-                <p>📍 Location: Madaraka Estate, Nairobi</p>
-                <p>📞 Phone: +254 700 123 456</p>
-                <p>📧 Email: support@kimushowholesalers.co.ke</p>
-            </div>
-            <form class="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Message" rows="4" required></textarea>
-                <button type="submit" class="auth-btn">Send Message</button>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Kimusho Wholesalers. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // 1. AUTHENTICATION HELPERS
-        function isLoggedIn() {
-            // Checks for the token and user data saved by your login.html
-            return localStorage.getItem('token') !== null && localStorage.getItem('user') !== null;
+            nav.appendChild(userGreet);
+            nav.appendChild(logoutBtn);
         }
+    }
 
-        function updateNavbar() {
-            const nav = document.getElementById('nav-links');
-            if (isLoggedIn()) {
-                const user = JSON.parse(localStorage.getItem('user'));
-                // Remove Login/Register and show User Name + Logout
-                document.getElementById('login-link').remove();
-                document.getElementById('register-link').remove();
-                
-                const userGreet = document.createElement('span');
-                userGreet.innerHTML = `Hi, <strong>${user.username}</strong>`;
-                userGreet.style.marginLeft = "15px";
+    // 2. DYNAMIC PRODUCTS LOADING
+    async function loadProducts() {
+        try {
+            const res = await fetch('/api/products');
+            if (!res.ok) throw new Error('Failed to fetch products');
 
-                const logoutBtn = document.createElement('a');
-                logoutBtn.href = "#";
-                logoutBtn.className = "nav-btn outline";
-                logoutBtn.style.marginLeft = "10px";
-                logoutBtn.textContent = "Logout";
-                logoutBtn.onclick = function() {
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    window.location.reload();
-                };
+            const products = await res.json();
 
-                nav.appendChild(userGreet);
-                nav.appendChild(logoutBtn);
-            }
-        }
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
 
-        // 2. CART LOGIC
-        const products = [
-            { id: 1, name: "Premium Irish Potatoes (50kg)", price: 3500, image: "assets/images/product1.jpg" },
-            { id: 2, name: "Vegetable Cooking Oil (20L)", price: 4200, image: "assets/images/product2.jpg" },
-            { id: 3, name: "Pishori Rice Grade 1 (25kg)", price: 5100, image: "assets/images/product3.jpg" },
-            { id: 4, name: "Kabras Sugar (50kg)", price: 6800, image: "assets/images/product4.jpg" }
-        ];
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        ${p.is_hot ? '<div class="badge hot">Hot</div>' : ''}
+                        ${p.is_sale ? '<div class="badge sale">Sale</div>' : ''}
+                        <img src="/uploads/${p.image || 'placeholder.jpg'}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200'"/>
+                        <div class="product-info">
+                            <h3>${p.name}</h3>
+                            <p class="price">KSh ${Number(p.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                            <button class="add-btn" data-id="${p.id}">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+            });
 
-        function addToCart(productId) {
-            // GATEKEEPER: Check if logged in first
-            if (!isLoggedIn()) {
-                alert("You must Login or Register to add items to your cart!");
-                window.location.href = "login.html";
-                return;
-            }
-
-            // If logged in, process the cart
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const product = products.find(p => p.id == productId);
-            const existing = cart.find(item => item.id == productId);
-
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-
-            localStorage.setItem('cart', JSON.stringify(cart));
-            return true; 
-        }
-
-        // 3. INITIALIZE PAGE
-        document.addEventListener('DOMContentLoaded', function() {
-            updateNavbar();
-
+            // Attach Add to Cart listeners to buttons
             const addBtns = document.querySelectorAll('.add-btn');
             addBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     const productId = this.getAttribute('data-id');
                     if (addToCart(productId)) {
                         const originalText = this.textContent;
@@ -217,7 +154,52 @@
                     }
                 });
             });
-        });
-    </script>
+
+        } catch (error) {
+            console.error(error);
+            document.getElementById('productGrid').innerHTML = '<p>Failed to load products.</p>';
+        }
+    }
+
+    // 3. CART LOGIC
+    const productsCache = []; // Optional: cache for products if needed
+
+    function addToCart(productId) {
+        if (!isLoggedIn()) {
+            alert("You must Login or Register to add items to your cart!");
+            window.location.href = "login.html";
+            return false;
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const product = productsCache.find(p => p.id == productId) || null;
+
+        // Since productsCache might be empty, you can also fallback to simple minimal product info:
+        // But better to keep product info in the button dataset or load beforehand
+
+        if (!product) {
+            alert("Product info not found.");
+            return false;
+        }
+
+        const existing = cart.find(item => item.id == productId);
+
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ ...product, qty: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        return true;
+    }
+
+    // 4. INIT
+    document.addEventListener('DOMContentLoaded', function () {
+        updateNavbar();
+        loadProducts();
+    });
+
+</script>
 </body>
 </html>

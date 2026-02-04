@@ -24,18 +24,40 @@ async function loadProducts() {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  const imageFile = document.getElementById('image').files[0];
+  console.log('🖼️ Image selected:', imageFile ? imageFile.name : 'NO FILE SELECTED');
+
   const data = new FormData(form);
   data.append("is_hot", document.getElementById('is_hot').checked ? 1 : 0);
   data.append("is_sale", document.getElementById('is_sale').checked ? 1 : 0);
 
-  await fetch("/api/products", {
-    method: "POST",
-    body: data
-  });
+  // Debug FormData
+  console.log('📤 FormData contents:');
+  for (let [key, value] of data.entries()) {
+    console.log(`  ${key}:`, value);
+  }
 
-  alert("Saved");
-  form.reset();
-  loadProducts();
+  try {
+    const response = await fetch("/api/products", {
+      method: "POST",
+      body: data
+    });
+
+    const result = await response.json();
+    console.log('📥 Server response:', result);
+    
+    if (response.ok) {
+      alert("✅ Product saved successfully!");
+      form.reset();
+      loadProducts();
+    } else {
+      alert("❌ Error: " + (result.error || 'Failed to save product'));
+      console.error("Upload error:", result);
+    }
+  } catch (err) {
+    alert("❌ Server error: " + err.message);
+    console.error("Upload error:", err);
+  }
 });
 
 async function deleteProduct(id) {

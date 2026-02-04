@@ -24,6 +24,9 @@ exports.addProduct = async (req, res) => {
       is_sale
     } = req.body;
 
+    console.log('📦 Adding product:', { name, price, category_id });
+    console.log('📎 File received:', req.file);
+
     // Basic validation for required fields
     if (!name || !category_id || !price) {
       return res.status(400).json({ error: 'Name, category, and price are required' });
@@ -44,6 +47,7 @@ exports.addProduct = async (req, res) => {
 
     // File upload (image)
     const image = req.file ? req.file.filename : null;
+    console.log('💾 Image filename:', image);
 
     // Insert into DB
     await db.query(
@@ -62,10 +66,11 @@ exports.addProduct = async (req, res) => {
       ]
     );
 
-    res.json({ success: true });
+    console.log('✅ Product added successfully:', { name, image });
+    res.json({ success: true, message: 'Product added', image: image });
   } catch (err) {
-    console.error('ADD PRODUCT ERROR:', err);
-    res.status(500).json({ error: 'Server error' });
+    console.error('❌ ADD PRODUCT ERROR:', err);
+    res.status(500).json({ error: 'Server error: ' + err.message });
   }
 };
 
