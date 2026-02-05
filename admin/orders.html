@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin | Orders</title>
+
+<link rel="stylesheet" href="css/admin.css">
+<script defer src="js/orders.js"></script>
+
+</head>
+<body>
+
+<header class="admin-header">
+  <h2>Kimusho Admin Panel</h2>
+
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="products.html">Products</a>
+    <a href="orders.html" class="active">Orders</a>
+    <a href="../frontend/index.html">View Site</a>
+  </nav>
+</header>
+
+
+<section class="admin-container">
+
+<h3 class="admin-title">Customer Orders</h3>
+
+<table class="admin-table">
+
+<thead>
+<tr>
+  <th>ID</th>
+  <th>Customer</th>
+  <th>Total (KSh)</th>
+  <th>Status</th>
+  <th>Date</th>
+  <th>Action</th>
+</tr>
+</thead>
+
+<tbody id="ordersTable">
+</tbody>
+
+</table>
+
+</section>
+
+</body>
+</html>

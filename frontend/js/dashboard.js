@@ -1,56 +1,56 @@
-// USER DASHBOARD
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const user = JSON.parse(localStorage.getItem("user"));
 
 
-// LOAD USER
-document.getElementById("username").textContent = user.name;
+// ================= LOAD USER =================
+if(user){
+  document.getElementById("username").textContent = user.name;
+}
 
 
-// STATS
-document.getElementById("orderCount").textContent = orders.length;
+// ================= LOAD ORDERS =================
+async function loadDashboard(){
 
-document.getElementById("cartCount").textContent = cart.length;
+  const res = await fetch("/api/orders");
+  const orders = await res.json();
 
-document.getElementById("pendingCount").textContent =
-  orders.filter(o => o.status === "Pending").length;
-
-document.getElementById("balance").textContent = "0";
-
-
-// LOAD ORDERS
-const table = document.getElementById("ordersTable");
-
-orders.forEach(o => {
-
-  const row = document.createElement("tr");
-
-  row.innerHTML = `
-
-    <td>#${o.id}</td>
-    <td>${o.date}</td>
-    <td>KSh ${o.total}</td>
-    <td>${o.status}</td>
-
-  `;
-
-  table.appendChild(row);
-
-});
+  // Filter only this user's orders
+  const myOrders = orders.filter(o => o.user_id == user.id);
 
 
-// LOGOUT
-document.getElementById("logoutBtn")
-  .addEventListener("click", () => {
+  // STATS
+  document.getElementById("orderCount").textContent =
+    myOrders.length;
 
-    localStorage.clear();
-    window.location.href = "login.html";
+  document.getElementById("cartCount").textContent =
+    cart.length;
 
-});
+  document.getElementById("pendingCount").textContent =
+    myOrders.filter(o=>o.status==="pending").length;
 
-const currentPage = window.location.pathname.split("/").pop();
+  document.getElementById("balance").textContent = "0";
 
-  document.querySelectorAll("nav a").forEach(link => {
-    if (link.getAttribute("href") === currentPage) {
-      link.classList.add("active");
-    }
+
+  // TABLE
+  const table = document.getElementById("ordersTable");
+
+  table.innerHTML = "";
+
+  myOrders.forEach(o=>{
+
+    table.innerHTML += `
+
+      <tr>
+        <td>#${o.id}</td>
+        <td>${new Date(o.order_date).toLocaleDateString()}</td>
+        <td>KSh ${Number(o.total_amount).toLocaleString()}</td>
+        <td>${o.status}</td>
+      </tr>
+
+    `;
+
   });
+
+}
+
+loadDashboard();

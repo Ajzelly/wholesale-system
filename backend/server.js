@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const db = require('./config/db');
 require('dotenv').config();
 
 const app = express();
@@ -19,13 +18,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, 'uploads')));
 
 
-// ================= API ROUTES =================
+// ================= ROUTES =================
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
+const orderRoutes = require('./routes/orderRoutes'); // ✅ ADD
 
 
 app.use('/api', authRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes); // ✅ ADD
 
 
 // ================= STATIC FILES =================
@@ -43,9 +44,7 @@ app.get('/admin', (req, res) => {
 });
 
 
-// ================= START SERVER =================
+// ================= START =================
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
-  console.log(`📁 Frontend: ${frontendDir}`);
-  console.log(`📁 Admin: ${adminDir}`);
 });
