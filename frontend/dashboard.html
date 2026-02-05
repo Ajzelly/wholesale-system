@@ -172,7 +172,7 @@
 </head>
 
 
-<body>
+<body data-auth="true">
 
 
 <!-- ================= NAVBAR ================= -->
@@ -283,23 +283,14 @@
 
 
 
-<!-- ================= SCRIPTS ================= -->
-
-<script src="js/auth.js"></script>
-<script src="js/dashboard.js"></script>
-
-<script>
-
-  requireAuth();
-
-  const user = getUser();
-
-  if(user){
-    document.getElementById("username").textContent = user.username;
-  }
-
-</script>
-
-
+</body>
+      <script src="js/auth.js"></script>
+      <script>
+        requireAuth();
+        const user = getUser();
+        if (user) {
+          document.getElementById("username").textContent = user.username;
+        }
+      </script>
 </body>
 </html>
