@@ -90,12 +90,19 @@
 
 </body>
       <script src="js/auth.js"></script>
-      <script>
-        requireAuth();
-        const user = getUser();
-        if (user) {
-          document.getElementById("username").textContent = user.username;
-        }
-      </script>
+<script>
+  // Make sure the user is logged in
+  requireAuth();
+
+  // Only allow normal users on this page
+  requireRole('user');
+
+  // Show username
+  const user = getUser();
+  if (user) {
+    document.getElementById("username").textContent = user.username;
+  }
+</script>
+
 </body>
 </html>

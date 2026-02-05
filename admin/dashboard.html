@@ -58,5 +58,12 @@
 	</main>
 
 	<script src="js/dashboard.js"></script>
+	<script src="js/auth.js"></script>
+    <script>
+     requireAuth();          // Make sure logged in
+     requireRole('admin');   // Only allow admins
+     showUsername();         // Display username if needed
+    </script>
+
 </body>
 </html>
