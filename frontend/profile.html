@@ -1,11 +1,310 @@
-<h2>Welcome, <span id="username"></span></h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-<script src="js/auth.js"></script>
-<script>
+  <meta charset="UTF-8" />
+  <title>My Profile | Kimusho</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <style>
+    body {
+      background: #f8fafc;
+      font-family: Arial, sans-serif;
+    }
+
+    .profile-box {
+      max-width: 500px;
+      margin: 50px auto 80px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-box h2 {
+      text-align: center;
+      color: #00bcd4;
+      margin-bottom: 20px;
+    }
+
+    .profile-box input,
+    .profile-box textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .profile-box input:focus,
+    .profile-box textarea:focus {
+      border-color: #00bcd4;
+      outline: none;
+    }
+
+    .profile-box input[disabled] {
+      background: #e9ecef;
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    .profile-box button {
+      width: 100%;
+      background: #00bcd4;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .profile-box button:hover {
+      background: #0097a7;
+    }
+
+    /* Feedback section */
+    .feedback-section {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .feedback-section h3 {
+      color: #00bcd4;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .feedback-section textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 100px;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    .feedback-section textarea:focus {
+      border-color: #00bcd4;
+      outline: none;
+    }
+
+    .feedback-section button {
+      margin-top: 15px;
+      background: #00bcd4;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: background-color 0.3s;
+    }
+
+    .feedback-section button:hover {
+      background: #0097a7;
+    }
+
+    /* Display user's feedback with admin replies */
+    #my-feedbacks {
+      max-width: 500px;
+      margin: 20px auto 60px;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    #my-feedbacks h3 {
+      text-align: center;
+      color: #00bcd4;
+      margin-bottom: 15px;
+    }
+
+    .user-feedback-item {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .user-feedback-item:last-child {
+      border-bottom: none;
+    }
+
+    .user-feedback-item p {
+      margin: 5px 0;
+      white-space: pre-wrap;
+    }
+
+    .user-feedback-item .admin-reply {
+      color: #007a8a;
+      font-style: italic;
+      margin-top: 5px;
+    }
+  </style>
+
+</head>
+<body>
+
+  <div class="profile-box">
+    <h2>My Profile</h2>
+
+    <form id="profileForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" disabled />
+      <input type="text" id="phone" placeholder="Phone Number" />
+      <textarea id="address" placeholder="Delivery Address"></textarea>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+
+  <div class="feedback-section">
+    <h3>Leave Feedback</h3>
+    <form id="feedbackForm">
+      <textarea name="message" placeholder="Your feedback here..." required></textarea>
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+
+  <div id="my-feedbacks">
+    <h3>My Feedback & Admin Replies</h3>
+    <div id="feedback-list-user">
+      <p>Loading feedback...</p>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+
+  <script>
     requireAuth();
 
-    const user = getUser();
-    if (user) {
-        document.getElementById("username").textContent = user.username;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Load user data into form
+    window.onload = () => {
+      if (!user) return;
+
+      document.getElementById('name').value = user.name || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+      document.getElementById('address').value = user.address || '';
+
+      loadUserFeedback();
+    };
+
+    // Profile form submit handler
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      if (!name) {
+        alert('Name is required');
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, phone, address }),
+        });
+
+        if (res.ok) {
+          alert('Profile updated successfully');
+
+          // Update localStorage user object
+          const updatedUser = { ...user, name, phone, address };
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        } else {
+          alert('Failed to update profile');
+        }
+      } catch (err) {
+        console.error('Profile update error', err);
+        alert('An error occurred');
+      }
+    });
+
+    // Feedback form submit handler
+    document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const message = e.target.message.value.trim();
+
+      if (!message) {
+        alert('Please enter feedback');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: user.id, user_name: user.name, message }),
+        });
+
+        if (res.ok) {
+          alert('Thank you for your feedback!');
+          e.target.reset();
+          loadUserFeedback();
+        } else {
+          alert('Failed to submit feedback');
+        }
+      } catch (err) {
+        console.error('Feedback submit error', err);
+        alert('An error occurred');
+      }
+    });
+
+    async function loadUserFeedback() {
+      try {
+        const res = await fetch(`/api/feedback?user_id=${user.id}`);
+        if (!res.ok) throw new Error('Failed to load user feedback');
+        const feedbacks = await res.json();
+
+        const container = document.getElementById('feedback-list-user');
+        container.innerHTML = '';
+
+        if (feedbacks.length === 0) {
+          container.innerHTML = '<p>No feedback submitted yet.</p>';
+          return;
+        }
+
+        feedbacks.forEach(fb => {
+          const div = document.createElement('div');
+          div.className = 'user-feedback-item';
+
+          div.innerHTML = `
+            <p><strong>Feedback:</strong> ${fb.message}</p>
+            ${fb.reply ? `<p class="admin-reply"><strong>Admin Reply:</strong> ${fb.reply}</p>` : '<p><em>No reply yet</em></p>'}
+          `;
+
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById('feedback-list-user').innerHTML = '<p>Error loading feedback.</p>';
+      }
     }
-</script>
+  </script>
+
+</body>
+</html>

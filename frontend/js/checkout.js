@@ -1,7 +1,19 @@
+document.addEventListener("DOMContentLoaded", renderOrderSummary);
+
 function renderOrderSummary() {
 
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const orderSummary = document.getElementById('order-summary');
+  const user = getUser();
+
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const cartKey = `cart_${user.id}`;
+
+  const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+  const orderSummary = document.getElementById("order-summary");
 
   let total = 0;
 
@@ -14,12 +26,15 @@ function renderOrderSummary() {
 
   const ul = document.createElement('ul');
   ul.style.listStyle = 'none';
+  ul.style.padding = "0";
 
   cart.forEach(item => {
 
     total += item.price * item.qty;
 
     const li = document.createElement('li');
+
+    li.style.marginBottom = "10px";
 
     li.innerHTML = `
       ${item.name} x ${item.qty}
@@ -40,6 +55,7 @@ function renderOrderSummary() {
 }
 
 
+
 // ================= PLACE ORDER =================
 
 const checkoutForm = document.getElementById('checkout-form');
@@ -48,10 +64,18 @@ checkoutForm.addEventListener('submit', async function(e){
 
   e.preventDefault();
 
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = getUser();
 
-  if(!user || cart.length === 0){
+  if (!user) {
+    alert("Login required");
+    return;
+  }
+
+  const cartKey = `cart_${user.id}`;
+
+  const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+  if(cart.length === 0){
     alert("Cart is empty");
     return;
   }
@@ -64,7 +88,7 @@ checkoutForm.addEventListener('submit', async function(e){
 
 
   // Send to backend
-  await fetch("/api/orders", {
+  const res = await fetch("/api/orders", {
 
     method: "POST",
 
@@ -82,13 +106,17 @@ checkoutForm.addEventListener('submit', async function(e){
   });
 
 
-  localStorage.removeItem('cart');
+  if(!res.ok){
+    alert("Order failed ❌");
+    return;
+  }
 
-  alert("Order placed successfully!");
+
+  // Clear cart
+  localStorage.removeItem(cartKey);
+
+  alert("Order placed successfully ✅");
 
   window.location.href = "dashboard.html";
 
 });
-
-
-document.addEventListener('DOMContentLoaded', renderOrderSummary);

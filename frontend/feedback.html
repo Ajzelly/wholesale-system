@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feedback | Kimusho</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .feedback-box {
+      max-width: 500px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .feedback-box textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+    .feedback-box button {
+      width: 100%;
+      background: #00bcd4;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="feedback-box">
+  <h2>Send Us Your Feedback</h2>
+  <form id="feedbackForm">
+    <textarea id="message" placeholder="Write your feedback here..." required></textarea>
+    <button type="submit">Send Feedback</button>
+  </form>
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+  requireAuth();
+
+  const form = document.getElementById('feedbackForm');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const user = getUser();
+    if (!user) {
+      alert("You must be logged in to send feedback");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const message = document.getElementById('message').value.trim();
+    if (!message) {
+      alert("Please enter a feedback message");
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user.id,
+          message
+        })
+      });
+
+      if (!res.ok) throw new Error("Failed to send feedback");
+
+      alert("Thank you for your feedback!");
+      form.reset();
+
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+</script>
+
+</body>
+</html>

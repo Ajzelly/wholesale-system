@@ -3,6 +3,7 @@ categories	name	varchar(100)	NO	UNI
 messages	id	int	NO	PRI	auto_increment
 messages	user_id	int	YES	MUL	
 messages	message	text	NO		
+messages	rating	int	YES		
 messages	created_at	timestamp	YES		DEFAULT_GENERATED
 order_items	id	int	NO	PRI	auto_increment
 order_items	order_id	int	YES	MUL	
@@ -34,6 +35,7 @@ users	id	int	NO	PRI	auto_increment
 users	name	varchar(100)	NO		
 users	email	varchar(100)	YES	UNI	
 users	phone	varchar(20)	YES		
+users	address	text	YES		
 users	password	varchar(255)	NO		
 users	role	enum('admin','staff','customer')	YES		
 users	created_at	timestamp	YES		DEFAULT_GENERATED

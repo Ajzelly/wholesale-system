@@ -1,62 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Admin Dashboard</title>
-	<link rel="stylesheet" href="css/admin.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .admin-header {
+      background: #00bcd4;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .admin-header .logo h2 {
+      margin: 0;
+    }
+
+    .admin-nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+
+    .admin-nav a:hover,
+    .admin-nav a.active {
+      opacity: 0.8;
+      border-bottom: 2px solid white;
+    }
+
+    .dashboard-main {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+    }
+
+    .dashboard-summary {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .summary-card {
+      background: white;
+      flex: 1 1 200px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      text-align: center;
+      color: #00bcd4;
+      font-weight: bold;
+    }
+
+    .summary-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .summary-card p {
+      font-size: 2rem;
+      margin: 0;
+      color: #007a8a;
+    }
+
+    section.dashboard-table,
+    section.feedback-section {
+      background: white;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+      margin-bottom: 40px;
+    }
+
+    section.dashboard-table h2,
+    section.feedback-section h2 {
+      color: #00bcd4;
+      margin-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    table thead th {
+      text-align: left;
+      padding: 12px 15px;
+      background: #e0f7fa;
+      color: #007a8a;
+      border-bottom: 2px solid #00bcd4;
+    }
+
+    table tbody td {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    table tbody tr:hover {
+      background: #f1f9fb;
+    }
+
+    /* Feedback list */
+    .feedback-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid #ccc;
+      margin-top: 10px;
+      padding-top: 10px;
+    }
+
+    .feedback-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .feedback-item:last-child {
+      border-bottom: none;
+    }
+
+    .feedback-item .user-name {
+      font-weight: 600;
+      color: #007a8a;
+    }
+
+    .feedback-item .date {
+      font-size: 0.85rem;
+      color: #666;
+      margin-left: 10px;
+    }
+
+    .feedback-item .message {
+      margin: 5px 0 10px 0;
+      white-space: pre-wrap;
+    }
+
+    textarea.reply-textarea {
+      width: 100%;
+      height: 60px;
+      padding: 6px;
+      resize: vertical;
+      margin-bottom: 6px;
+    }
+
+    button.reply-btn {
+      background-color: #00bcd4;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button.reply-btn:hover {
+      background-color: #0097a7;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .dashboard-summary {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
+
 <header class="admin-header">
-	<div class="logo"><h2>Kimusho Admin Panel</h2></div>
-	<nav class="admin-nav">
-	        <a href="dashboard.html" class="active">Dashboard</a>
-			<a href="orders.html">Orders</a>
-			<a href="products.html">Products</a>
-			<a href="users.html">Users</a>
-			<a href="reports.html">Reports</a>
-			<a href="logout.php">Logout</a>
-	</nav>
+  <div class="logo"><h2>Kimusho Admin Panel</h2></div>
+  <nav class="admin-nav">
+    <a href="dashboard.html" class="active">Dashboard</a>
+    <a href="orders.html">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="users.html">Users</a>
+    <a href="reports.html">Reports</a>
+    <a href="logout.php">Logout</a>
+  </nav>
 </header>
-	<main class="dashboard-main">
-		<section class="dashboard-summary">
-			<div class="summary-card">
-				<h3>Total Orders</h3>
-				<p id="total-orders">--</p>
-			</div>
-			<div class="summary-card">
-				<h3>Total Products</h3>
-				<p id="total-products">--</p>
-			</div>
-			<div class="summary-card">
-				<h3>Total Users</h3>
-				<p id="total-users">--</p>
-			</div>
-			<div class="summary-card">
-				<h3>Revenue</h3>
-				<p id="total-revenue">--</p>
-			</div>
-		</section>
 
-		<section class="dashboard-table">
-			<h2>Recent Orders</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Order ID</th>
-						<th>User</th>
-						<th>Date</th>
-						<th>Status</th>
-						<th>Total</th>
-					</tr>
-				</thead>
-				<tbody id="recent-orders">
-					<!-- Orders will be populated by JS -->
-				</tbody>
-			</table>
-		</section>
-	</main>
+<main class="dashboard-main">
 
-	<script src="js/dashboard.js"></script>
+  <section class="dashboard-summary">
+    <div class="summary-card">
+      <h3>Total Orders</h3>
+      <p id="total-orders">--</p>
+    </div>
+    <div class="summary-card">
+      <h3>Total Products</h3>
+      <p id="total-products">--</p>
+    </div>
+    <div class="summary-card">
+      <h3>Total Users</h3>
+      <p id="total-users">--</p>
+    </div>
+    <div class="summary-card">
+      <h3>Revenue</h3>
+      <p id="total-revenue">--</p>
+    </div>
+    <div class="summary-card">
+      <h3>Total Feedback</h3>
+      <p id="total-feedback">--</p>
+    </div>
+  </section>
+
+  <section class="dashboard-table">
+    <h2>Recent Orders</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="recent-orders">
+        <!-- Orders will be populated by JS -->
+      </tbody>
+    </table>
+  </section>
+
+  <section class="feedback-section">
+    <h2>Recent Feedback</h2>
+    <div class="feedback-list" id="feedback-list">
+      <!-- Feedback items will be loaded here -->
+    </div>
+  </section>
+
+</main>
+
+<script src="js/dashboard.js"></script>
+<script>
+  async function loadFeedback() {
+    try {
+      const res = await fetch('/api/feedback');
+      if (!res.ok) throw new Error('Failed to load feedback');
+      const feedbacks = await res.json();
+
+      document.getElementById('total-feedback').textContent = feedbacks.length;
+
+      const list = document.getElementById('feedback-list');
+      list.innerHTML = '';
+
+      if (feedbacks.length === 0) {
+        list.innerHTML = '<p>No feedback yet.</p>';
+        return;
+      }
+
+      feedbacks.slice(0, 10).forEach(fb => {
+        const date = new Date(fb.created_at).toLocaleDateString();
+        const div = document.createElement('div');
+        div.className = 'feedback-item';
+        div.innerHTML = `
+          <span class="user-name">${fb.user_name || 'Anonymous'}</span>
+          <span class="date">${date}</span>
+          <p class="message">${fb.message}</p>
+          <textarea class="reply-textarea" placeholder="Write a reply...">${fb.reply || ''}</textarea>
+          <button class="reply-btn" data-id="${fb.id}">Send Reply</button>
+        `;
+
+        list.appendChild(div);
+      });
+
+      attachReplyListeners();
+    } catch (err) {
+      console.error(err);
+      document.getElementById('feedback-list').innerHTML = '<p>Error loading feedback.</p>';
+    }
+  }
+
+  function attachReplyListeners() {
+    document.querySelectorAll(".reply-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const feedbackId = btn.dataset.id;
+        const textarea = btn.previousElementSibling;
+        const replyText = textarea.value.trim();
+
+        if (!replyText) {
+          alert("Please enter a reply before sending.");
+          return;
+        }
+
+        try {
+          const res = await fetch(`/api/feedback/${feedbackId}/reply`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reply: replyText })
+          });
+
+          if (!res.ok) throw new Error("Failed to send reply");
+
+          alert("Reply sent successfully!");
+          loadFeedback(); // Refresh list to show updated reply
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadFeedback();
+    // TODO: load other dashboard info like orders, products, revenue, users
+  });
+</script>
+
 </body>
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Feedback - Kimusho</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: #f7faff; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+    button.delete-btn { background: #e74c3c; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">kimusho<span>w/s</span></div>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="products.html">Products</a>
+    <a href="feedback.html" class="active">Feedback</a>
+    <a href="orders.html">Orders</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </nav>
+</header>
+
+<main style="padding: 20px;">
+  <h1>Customer Feedback</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="feedbackTable">
+      <!-- Feedback rows loaded here -->
+    </tbody>
+  </table>
+</main>
+
+<script>
+  async function loadFeedback() {
+    try {
+      const res = await fetch('/api/feedback');
+      const feedbacks = await res.json();
+
+      const tbody = document.getElementById('feedbackTable');
+      tbody.innerHTML = '';
+
+      feedbacks.forEach(fb => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${fb.id}</td>
+          <td>${fb.user_name}</td>
+          <td>${fb.message}</td>
+          <td>${new Date(fb.created_at).toLocaleString()}</td>
+          <td><button class="delete-btn" onclick="deleteFeedback(${fb.id})">Delete</button></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error('Failed to load feedback', err);
+    }
+  }
+
+  async function deleteFeedback(id) {
+    if (!confirm('Delete this feedback?')) return;
+
+    try {
+      const res = await fetch(`/api/feedback/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        alert('Feedback deleted');
+        loadFeedback();
+      } else {
+        alert('Failed to delete feedback');
+      }
+    } catch (err) {
+      console.error('Delete failed', err);
+    }
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = 'login.html';
+  }
+
+  window.onload = loadFeedback;
+</script>
+
+</body>
+</html>
