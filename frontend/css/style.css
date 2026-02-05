@@ -345,6 +345,12 @@ html {
     transition: color 0.2s;
 }
 
+.navbar nav a.active {
+  color: #007aff;     /* the color you want when active */
+  font-weight: bold;  /* optional */
+  border-bottom: 2px solid #007aff; /* optional underline highlight */
+}
+
 .navbar nav a:hover {
     color: #3f72af;
 }
@@ -580,3 +586,26 @@ footer {
   background: #0d6efd;
   color: white;
 }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-area {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: #e63946;
+  cursor: pointer;
+  font-weight: 600;
+}
+

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Our Products | Kimusho</title>
 
   <link rel="stylesheet" href="css/style.css" />
@@ -10,68 +10,110 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
   />
-
-  <script defer src="js/products.js"></script>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="logo">kimusho<span>w/s</span></div>
 
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search products..." />
-    <button><i class="fas fa-search"></i></button>
-  </div>
-
-  <nav>
-    <a href="index.html">Home</a>
+  <nav class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
     <a href="products.html" class="active">Products</a>
-    <a href="login.html">Login</a>
-    <a href="register.html" class="nav-btn outline">Register</a>
+    <a href="cart.html">Cart</a>
+    <a href="profile.html">Profile</a>
+
+    <!-- Guest -->
+    <a href="login.html" id="loginLink">Login</a>
+    <a href="register.html" id="registerLink" class="nav-btn outline">Register</a>
+
+    <!-- Logged in user -->
+    <span id="userArea" class="user-area" style="display:none;">
+      <span id="username"></span>
+      <button onclick="logout()" class="logout-btn">Logout</button>
+    </span>
   </nav>
 </header>
 
-
-<!-- PRODUCTS -->
 <section class="section-container">
-
   <h2 class="section-title">Our Products</h2>
-
-  <!-- FILTERS -->
-  <div class="filter-bar">
-
-    <select id="categoryFilter">
-      <option value="all">All Categories</option>
-      <option value="grains">Grains</option>
-      <option value="oil">Cooking Oil</option>
-      <option value="sugar">Sugar</option>
-      <option value="vegetables">Vegetables</option>
-    </select>
-
-    <select id="priceFilter">
-      <option value="all">All Prices</option>
-      <option value="low">Below KSh 4,000</option>
-      <option value="mid">KSh 4,000 - 6,000</option>
-      <option value="high">Above KSh 6,000</option>
-    </select>
-
-  </div>
-
-
-  <!-- PRODUCT GRID -->
-  <div class="product-grid" id="productGrid">
-    <!-- JS loads products here -->
-  </div>
-
+  <div class="product-grid" id="productGrid"></div>
 </section>
 
-
-<!-- FOOTER -->
 <footer>
   <p>&copy; 2026 Kimusho Wholesale System</p>
 </footer>
+
+<!-- AUTH -->
+<script src="js/auth.js"></script>
+
+<script>
+  // Protect page
+  requireAuth();
+
+  // Navbar logic
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = getUser();
+
+    if (user) {
+      document.getElementById("username").textContent = user.username;
+      document.getElementById("userArea").style.display = "flex";
+      document.getElementById("loginLink").style.display = "none";
+      document.getElementById("registerLink").style.display = "none";
+    }
+  });
+</script>
+
+<!-- PRODUCTS LOGIC -->
+<script>
+  async function loadProducts() {
+    const res = await fetch("/api/products");
+    const products = await res.json();
+
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = "";
+
+    products.forEach(p => {
+      grid.innerHTML += `
+        <div class="product-card">
+          ${p.is_hot ? '<span class="badge hot">HOT</span>' : ''}
+          ${p.is_sale ? '<span class="badge sale">SALE</span>' : ''}
+          <img src="/uploads/${p.image || 'placeholder.jpg'}" alt="${p.name}" />
+          <h3>${p.name}</h3>
+          <p>KSh ${Number(p.price).toLocaleString()}</p>
+          <button class="add-btn"
+            onclick="addToCart(${p.id}, '${p.name}', ${p.price}, '${p.image}')">
+            Add to Cart
+          </button>
+        </div>
+      `;
+    });
+  }
+
+  function addToCart(id, name, price, image) {
+    const user = getUser();
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const cartKey = `cart_${user.id}`;
+    let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+
+    const existing = cart.find(item => item.id === id);
+
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id, name, price, image, qty: 1 });
+    }
+
+    localStorage.setItem(cartKey, JSON.stringify(cart));
+    alert(`Added ${name} to cart`);
+  }
+
+  loadProducts();
+</script>
 
 </body>
 </html>

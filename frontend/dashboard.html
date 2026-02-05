@@ -13,7 +13,7 @@
 
 </head>
 
-
+    
 <body>
 
 
@@ -26,15 +26,16 @@
     <a href="products.html">Shop</a>
     <a href="cart.html">Cart</a>
     <a href="profile.html">Profile</a>
-    <a href="#" id="logoutBtn">Logout</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
   </nav>
 
 </header>
 
+<h2>Welcome, <span id="username"></span></h2>
+
+
 
 <section class="section-container">
-
-  <h2>Welcome, <span id="username">User</span> 👋</h2>
 
 
   <!-- STATS -->
@@ -87,5 +88,14 @@
 </section>
 
 
+</body>
+      <script src="js/auth.js"></script>
+      <script>
+        requireAuth();
+        const user = getUser();
+        if (user) {
+          document.getElementById("username").textContent = user.username;
+        }
+      </script>
 </body>
 </html>

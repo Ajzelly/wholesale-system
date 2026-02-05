@@ -1,0 +1,11 @@
+<h2>Welcome, <span id="username"></span></h2>
+
+<script src="js/auth.js"></script>
+<script>
+    requireAuth();
+
+    const user = getUser();
+    if (user) {
+        document.getElementById("username").textContent = user.username;
+    }
+</script>
