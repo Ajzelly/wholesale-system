@@ -1,18 +1,4 @@
 // USER DASHBOARD
-
-
-// MOCK DATA (replace with API later)
-
-const user = {
-  name: "Samuel"
-};
-
-const orders = [
-  { id: 101, date: "2026-01-12", total: 5400, status: "Delivered" },
-  { id: 102, date: "2026-01-20", total: 3200, status: "Pending" },
-  { id: 103, date: "2026-01-25", total: 8700, status: "Delivered" }
-];
-
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 
