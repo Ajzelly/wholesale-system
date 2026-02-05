@@ -1,9 +1,46 @@
+#checkout-form, #order-summary {
+    background: rgba(63, 114, 175, 0.55);
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 30px 25px;
+    margin: 40px auto 20px auto;
+    max-width: 700px;
+}
+/* Celebration Emoji Background */
+.celebration-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.celebration-bg .emoji {
+    position: absolute;
+    font-size: 7vw;
+    opacity: 0.35;
+    user-select: none;
+    filter: blur(0.5px);
+}
+.celebration-bg .darkblue { color: #0a2342; left: 10vw; top: 12vh; }
+.celebration-bg .gold { color: #ffd700; left: 70vw; top: 18vh; }
+.celebration-bg .pink { color: #e75480; left: 30vw; top: 60vh; }
+.celebration-bg .green { color: #1abc9c; left: 80vw; top: 70vh; }
+.celebration-bg .blue { color: #3f72af; left: 50vw; top: 40vh; }
+.celebration-bg .orange { color: #ff9800; left: 20vw; top: 80vh; }
+
+body > *:not(.celebration-bg) {
+    position: relative;
+    z-index: 1;
+}
 /* =========================
    CART & CHECKOUT STYLES
 ========================= */
 
 #cart-items, #order-summary {
-    background: #fff;
+    background: rgba(63, 114, 175, 0.55); /* translucent blue */
     border-radius: 10px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
     padding: 30px 25px;
