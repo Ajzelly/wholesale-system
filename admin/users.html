@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Users | Kimusho</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #00bcd4;
+    }
+    .user-count {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background: #00bcd4;
+      color: white;
+    }
+    tr:hover {
+      background: #f1f9fb;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Users</h1>
+  <div class="user-count">Total Users: <span id="userCount">--</span></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Joined On</th>
+      </tr>
+    </thead>
+    <tbody id="usersTableBody">
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    async function loadUsers() {
+      try {
+        // Load user count
+        const resCount = await fetch('/api/users/count');
+        const countData = await resCount.json();
+        document.getElementById('userCount').textContent = countData.count || 0;
+
+        // Load all users
+        const resUsers = await fetch('/api/users');
+        const users = await resUsers.json();
+
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+
+        if (users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No users found</td></tr>';
+          return;
+        }
+
+        users.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${new Date(user.created_at).toLocaleDateString()}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error('Error loading users:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadUsers);
+  </script>
+</body>
+</html>

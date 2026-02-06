@@ -6,6 +6,8 @@ exports.getOrders = async (req,res)=>{
 
   try{
 
+    console.log('Fetching orders...');
+
     const [rows] = await db.query(`
 
       SELECT 
@@ -17,6 +19,8 @@ exports.getOrders = async (req,res)=>{
       ORDER BY order_date DESC
 
     `);
+
+    console.log('Orders fetched:', rows.length);
 
     res.json(rows);
 
@@ -104,4 +108,43 @@ exports.deleteOrder = async (req,res)=>{
 
   }
 
+};
+
+// Get order count
+exports.getOrderCount = async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT COUNT(*) AS count FROM orders');
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("GET ORDER COUNT:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Get total revenue
+exports.getTotalRevenue = async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT SUM(total_amount) AS revenue FROM orders WHERE status = "delivered"');
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("GET TOTAL REVENUE:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Get recent orders
+exports.getRecentOrders = async (req, res) => {
+  try {
+    const [rows] = await db.query(`
+      SELECT orders.*, users.name AS customer
+      FROM orders
+      LEFT JOIN users ON orders.user_id = users.id
+      ORDER BY order_date DESC
+      LIMIT 10
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error("GET RECENT ORDERS:", err);
+    res.status(500).json({ error: "Server error" });
+  }
 };
