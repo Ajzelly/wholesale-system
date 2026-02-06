@@ -40,9 +40,11 @@
   <h2 class="section-title">Our Products</h2>
   <!-- Modern Search Bar -->
   <div class="search-bar-container">
-    <input type="text" id="product-search" placeholder="Search products..." autocomplete="off" />
-    <span class="search-icon" id="search-icon" style="cursor:pointer;"><i class="fas fa-search"></i></span>
-    <div id="autocomplete-list" class="autocomplete-items"></div>
+    <div style="position:relative;width:350px;">
+      <input type="text" id="product-search" placeholder="Search products..." autocomplete="off" style="width:100%;padding-right:40px;" />
+      <span class="search-icon" id="search-icon" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#3949ab;font-size:1.2rem;cursor:pointer;"><i class="fas fa-search"></i></span>
+      <div id="autocomplete-list" class="autocomplete-items"></div>
+    </div>
   </div>
   <style>
     .autocomplete-items {
@@ -110,7 +112,8 @@
     right: 32px;
     color: #3949ab;
     font-size: 1.2rem;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
   }
 </style>
 
