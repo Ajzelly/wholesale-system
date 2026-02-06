@@ -161,6 +161,16 @@
 
 </head>
 <body>
+  <header class="navbar">
+  <div class="logo">kimusho<span>w/s</span></div>
+  <nav id="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="products.html">Products</a>
+    <a href="profile.html" class="active">My Profile</a>
+    <a href="#" id="logout-btn">Logout</a>
+  </nav>
+</header>
+
 
   <div class="profile-box">
     <h2>My Profile</h2>
@@ -222,7 +232,7 @@
       }
 
       try {
-        const res = await fetch(`/api/users/${user.id}`, {
+        const res = await fetch(`/api/profile/${user.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, phone, address }),

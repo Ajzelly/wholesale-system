@@ -67,6 +67,7 @@
       padding: 12px 15px;
       border-bottom: 1px solid #ddd;
       text-align: left;
+      vertical-align: middle;
     }
     th {
       background: #00bcd4;
@@ -79,16 +80,15 @@
 </head>
 <body data-auth="true">
 <header class="admin-header">
-	<div class="logo"><h2>Kimusho Admin Panel</h2></div>
-	<nav class="admin-nav">
-	        <a href="dashboard.html">Dashboard</a>
-			<a href="orders.html">Orders</a>
-			<a href="products.html">Products</a>
-			<a href="users.html" class="active">Users</a>
-			<a href="reports.html">Reports</a>
-			
-			<button onclick="logout()" class="logout-btn">Logout</button>
-	</nav>
+  <div class="logo"><h2>Kimusho Admin Panel</h2></div>
+  <nav class="admin-nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="orders.html">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="users.html" class="active">Users</a>
+    <a href="reports.html">Reports</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </nav>
 </header>
 
 <main class="main-content">
@@ -101,6 +101,8 @@
         <th>User ID</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Phone</th>            <!-- Added -->
+        <th>Address</th>          <!-- Added -->
         <th>Joined On</th>
       </tr>
     </thead>
@@ -125,7 +127,7 @@
         tbody.innerHTML = '';
 
         if (users.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No users found</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No users found</td></tr>';
           return;
         }
 
@@ -134,7 +136,9 @@
           tr.innerHTML = `
             <td>${user.id}</td>
             <td>${user.name}</td>
-            <td>${user.email}</td>
+            <td>${user.email || '-'}</td>
+            <td>${user.phone || '-'}</td>
+            <td>${user.address || '-'}</td>
             <td>${new Date(user.created_at).toLocaleDateString()}</td>
           `;
           tbody.appendChild(tr);

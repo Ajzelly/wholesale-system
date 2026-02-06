@@ -18,6 +18,20 @@ function requireAuth() {
     }
 }
 
+// Role-based page protection
+function requireRole(requiredRole) {
+    const user = getUser();
+
+    if (!user) {
+        logout();
+        return;
+    }
+
+    if (requiredRole && user.role !== requiredRole) {
+        window.location.href = "/index.html";
+    }
+}
+
 // Redirect logged-in users away from admin login page
 function redirectIfLoggedIn() {
     const token = localStorage.getItem("token");
