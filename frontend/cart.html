@@ -12,12 +12,59 @@
     body {
       background: linear-gradient(135deg, #1a2746 60%, #3f72af 100%);
       min-height: 100vh;
-      color: #fff;
+      position: relative;
+      overflow-x: hidden;
     }
+    .basket-bg {
+      position: fixed;
+      z-index: 0;
+      opacity: 0.13;
+      font-size: 180px;
+      pointer-events: none;
+    }
+    .basket-bg.b1 { top: 10vh; left: 5vw; font-size: 180px; }
+    .basket-bg.b2 { top: 60vh; right: 8vw; font-size: 220px; }
+    .basket-bg.b3 { bottom: 5vh; left: 50vw; font-size: 120px; }
+    .basket-bg.b4 { top: 30vh; left: 20vw; font-size: 90px; }
+    .basket-bg.b5 { bottom: 20vh; right: 18vw; font-size: 140px; }
+    .basket-bg.b6 { top: 75vh; left: 10vw; font-size: 70px; }
+    .basket-bg.b7 { top: 15vh; right: 15vw; font-size: 100px; }
     main, header {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    main {
+      padding-top: 0;
+    }
+    #cart-items, #cart-summary {
+      margin-top: 0 !important;
+    }
+    #cart-summary {
+      background: #e3f0ff !important;
+      color: #1a2746 !important;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      max-width: 700px;
+      margin: 0 auto 40px auto;
+      padding: 25px 25px 30px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.2rem;
+    }
+    #cart-summary button {
+      background: #3f72af !important;
+      color: #fff !important;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #cart-summary button:hover {
+      background: #1a2746 !important;
     }
     .cart-item {
       display: flex;
@@ -33,19 +80,6 @@
       height: 70px;
       object-fit: cover;
       border-radius: 6px;
-    }
-    #cart-summary {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      text-align: right;
-    }
-    button {
-      background: #3f72af;
-      border: none;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
     }
   </style>
 </head>
@@ -63,8 +97,11 @@
   <section id="cart-items"></section>
 
   <div id="cart-summary">
-    Total: <span id="cart-total">KSh 0</span><br><br>
+    <p>Total: <span id="cart-total">KSh 0</span></p>
     <button id="checkout-btn">Proceed to Checkout</button>
+  </div>
+  <div style="text-align:center; margin-top:18px;">
+    <a href="products.html" style="background:#fff; color:#3f72af; border:1px solid #3f72af; border-radius:6px; padding:12px 24px; font-size:1.05rem; font-weight:500; text-decoration:none; transition:background 0.2s; display:inline-block;">Continue Shopping</a>
   </div>
 
 </main>

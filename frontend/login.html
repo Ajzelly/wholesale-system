@@ -54,13 +54,9 @@ document.getElementById('loginForm').addEventListener('submit', async function (
             document.getElementById('message').textContent = 'Login successful!';
             document.getElementById('message').className = 'success-message';
 
-            // Redirect based on role
+            // Go to dashboard
             setTimeout(() => {
-                if (result.user.role === 'admin') {
-                    window.location.href = "admin/dashboard.html";
-                } else {
-                    window.location.href = "dashboard.html";
-                }
+                window.location.href = "products.html";
             }, 800);
 
         } else {
