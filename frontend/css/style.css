@@ -609,3 +609,27 @@ footer {
   font-weight: 600;
 }
 
+.view-cart-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3f72af; /* button color */
+    color: #fff; /* text color */
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background 0.2s;
+    margin: 20px auto;
+}
+
+.view-cart-btn:hover {
+    background-color: #2d3a4b; /* darker on hover */
+}
+
+/* Center the button in the footer */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background: transparent; /* remove any footer color */
+}
+
+
