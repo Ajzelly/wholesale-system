@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reports | Kimusho Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/admin.css">
+
+  <style>
+
+    body{
+      margin:0;
+      font-family:Poppins, Arial, sans-serif;
+      background:#f8fafc;
+    }
+
+    /* HEADER */
+
+    .admin-header{
+      background:#00bcd4;
+      color:white;
+      padding:15px 25px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .admin-nav a{
+      color:white;
+      text-decoration:none;
+      margin-left:18px;
+      font-weight:500;
+    }
+
+    .admin-nav a.active{
+      text-decoration:underline;
+    }
+
+    /* MAIN */
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+      padding:30px 20px;
+    }
+
+    h2{
+      color:#00bcd4;
+      margin-bottom:20px;
+    }
+
+    /* SUMMARY */
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      margin-bottom:40px;
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.08);
+      text-align:center;
+    }
+
+    .card h3{
+      color:#00bcd4;
+      margin-bottom:8px;
+    }
+
+    .card p{
+      font-size:22px;
+      font-weight:600;
+    }
+
+    /* TABLE */
+
+    .table-box{
+      background:white;
+      padding:25px;
+      border-radius:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.08);
+      margin-bottom:40px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th{
+      background:#00bcd4;
+      color:white;
+      padding:12px;
+      text-align:left;
+    }
+
+    td{
+      padding:12px;
+      border-bottom:1px solid #eee;
+    }
+
+    tr:hover{
+      background:#f3fbfc;
+    }
+
+  </style>
+
+</head>
+<body data-auth="true">
+
+<!-- HEADER -->
+
+<header class="admin-header">
+
+  <h2>Kimusho Reports</h2>
+
+  <nav class="admin-nav">
+
+    <a href="dashboard.html">Dashboard</a>
+    <a href="orders.html">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="users.html">Users</a>
+    <a href="reports.html" class="active">Reports</a>
+
+    <button onclick="logout()" class="logout-btn">Logout</button>
+
+  </nav>
+
+</header>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+  <h2>Sales & Performance Report</h2>
+
+
+  <!-- SUMMARY -->
+
+  <div class="summary">
+
+    <div class="card">
+      <h3>Total Orders</h3>
+      <p id="totalOrders">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Total Revenue</h3>
+      <p>KSh <span id="totalRevenue">0</span></p>
+    </div>
+
+    <div class="card">
+      <h3>Pending Orders</h3>
+      <p id="pendingOrders">0</p>
+    </div>
+
+    <div class="card">
+      <h3>Delivered Orders</h3>
+      <p id="deliveredOrders">0</p>
+    </div>
+
+  </div>
+
+
+  <!-- TOP PRODUCTS -->
+
+  <div class="table-box">
+
+    <h3>Top Selling Products</h3>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Sold Qty</th>
+          <th>Total Sales (KSh)</th>
+        </tr>
+      </thead>
+
+      <tbody id="topProducts">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- RECENT ORDERS -->
+
+  <div class="table-box">
+
+    <h3>Recent Orders</h3>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+
+      <tbody id="recentOrders">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<script src="js/auth.js"></script>
+<script src="js/reports.js"></script>
+
+<script>
+  requireAuth();
+  requireRole('admin');
+</script>
+
+</body>
+</html>

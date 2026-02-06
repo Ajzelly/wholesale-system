@@ -1,21 +1,55 @@
 const db = require('../config/db');
 
+
+/* ===============================
+   GET ALL USERS (ADMIN)
+================================ */
+
 exports.getAllUsers = async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT id, name, email, created_at FROM users');
+
+    const [rows] = await db.query(`
+      SELECT 
+        id,
+        name,
+        email,
+        created_at
+      FROM users
+      ORDER BY created_at DESC
+    `);
+
     res.json(rows);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Error fetching users' });
+
+  } catch (err) {
+
+    console.error("GET USERS ERROR:", err);
+
+    res.status(500).json({ error: 'Server error' });
+
   }
 };
 
-exports.getUserCount = async (req, res) => {
+
+
+/* ===============================
+   COUNT USERS
+================================ */
+
+exports.countUsers = async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT COUNT(*) AS count FROM users');
+
+    const [rows] = await db.query(`
+      SELECT COUNT(*) AS count
+      FROM users
+    `);
+
     res.json(rows[0]);
-  } catch (error) {
-    console.error('Error fetching user count:', error);
-    res.status(500).json({ error: 'Error fetching user count' });
+
+  } catch (err) {
+
+    console.error("COUNT USERS ERROR:", err);
+
+    res.status(500).json({ error: 'Server error' });
+
   }
 };

@@ -11,7 +11,7 @@ function getUser() {
 function logout() {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
 
 // Load dashboard data on DOM content loaded

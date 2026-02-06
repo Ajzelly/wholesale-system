@@ -2,18 +2,19 @@
 // Authentication / User Utils
 // --------------------------
 
-// Check if user is logged in (must be on every protected page)
+// Get logged-in user
+function getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+}
+
+// Check if user is logged in (use on ALL protected pages)
 function requireAuth() {
     const token = localStorage.getItem("token");
     const user = getUser();
 
-    // Prevent cached page from showing
     if (!token || !user) {
-        // Clear any leftover storage just in case
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        // Redirect to login page (absolute path)
-        window.location.href = "/frontend/login.html";
+        localStorage.clear();
+        window.location.replace("/index.html");
     }
 }
 
@@ -24,16 +25,11 @@ function redirectIfLoggedIn() {
 
     if (token && user) {
         if (user.role === "admin") {
-            window.location.href = "/admin/dashboard.html";
+            window.location.replace("/admin/dashboard.html");
         } else {
-            window.location.href = "/dashboard.html";
+            window.location.replace("/products.html");
         }
     }
-}
-
-// Get logged-in user
-function getUser() {
-    return JSON.parse(localStorage.getItem("user"));
 }
 
 // Show username anywhere
@@ -45,11 +41,10 @@ function showUsername() {
     }
 }
 
-// Logout (works anywhere)
+// Logout (works everywhere)
 function logout() {
-    localStorage.clear(); // clear everything
-    // Force reload and go to login
-    window.location.replace("login.html");
+    localStorage.clear();
+    window.location.replace("/index.html");
 }
 
 // --------------------------
@@ -59,30 +54,24 @@ function requireRole(requiredRole) {
     const user = getUser();
 
     if (!user) {
-        logout(); // redirect to login
+        logout();
         return;
     }
 
     if (requiredRole && user.role !== requiredRole) {
-        window.location.href =
+        window.location.replace(
             user.role === "admin"
                 ? "/admin/dashboard.html"
-                : "/dashboard.html";
+                : "/products.html"
+        );
     }
 }
 
 // --------------------------
-// Prevent caching for protected pages
+// Prevent cached access (BACK button fix)
 // --------------------------
-window.onload = function () {
-    // For all protected pages
-    if (document.body.dataset.auth === "true") {
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
         requireAuth();
-        // Extra safety: force reload if coming from back button
-        window.addEventListener("pageshow", function (event) {
-            if (event.persisted) {
-                requireAuth();
-            }
-        });
     }
-};
+});
