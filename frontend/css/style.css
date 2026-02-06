@@ -606,7 +606,8 @@ footer {
   border: none;
   color: #e63946;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: medium;
 }
 
 .view-cart-btn {
