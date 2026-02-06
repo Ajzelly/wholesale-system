@@ -2,41 +2,37 @@
 // Authentication / User Utils
 // --------------------------
 
-// Check if user is logged in (must be on every protected page)
+// Get logged-in user
+function getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+}
+
+// Check if user is logged in (ADMIN PAGES ONLY)
 function requireAuth() {
     const token = localStorage.getItem("token");
     const user = getUser();
 
-    // Prevent cached page from showing
-    if (!token || !user) {
-        // Clear any leftover storage just in case
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        // Redirect to login page (absolute path)
-        window.location.href = "/frontend/login.html";
+    if (!token || !user || user.role !== "admin") {
+        localStorage.clear();
+        window.location.replace("/index.html");
     }
 }
 
-// Redirect logged-in users away from login/register pages
+// Redirect logged-in users away from admin login page
 function redirectIfLoggedIn() {
     const token = localStorage.getItem("token");
     const user = getUser();
 
     if (token && user) {
         if (user.role === "admin") {
-            window.location.href = "/admin/dashboard.html";
+            window.location.replace("/admin/dashboard.html");
         } else {
-            window.location.href = "/dashboard.html";
+            window.location.replace("/products.html");
         }
     }
 }
 
-// Get logged-in user
-function getUser() {
-    return JSON.parse(localStorage.getItem("user"));
-}
-
-// Show username anywhere
+// Show username
 function showUsername() {
     const user = getUser();
     const el = document.getElementById("username");
@@ -45,44 +41,17 @@ function showUsername() {
     }
 }
 
-// Logout (works anywhere)
+// Logout (ADMIN)
 function logout() {
-    localStorage.clear(); // clear everything
-    // Force reload and go to login
-    window.location.replace("login.html");
+    localStorage.clear();
+    window.location.replace("/index.html");
 }
 
 // --------------------------
-// Role-based page protection
+// Extra protection (BACK button fix)
 // --------------------------
-function requireRole(requiredRole) {
-    const user = getUser();
-
-    if (!user) {
-        logout(); // redirect to login
-        return;
-    }
-
-    if (requiredRole && user.role !== requiredRole) {
-        window.location.href =
-            user.role === "admin"
-                ? "/admin/dashboard.html"
-                : "/dashboard.html";
-    }
-}
-
-// --------------------------
-// Prevent caching for protected pages
-// --------------------------
-window.onload = function () {
-    // For all protected pages
-    if (document.body.dataset.auth === "true") {
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
         requireAuth();
-        // Extra safety: force reload if coming from back button
-        window.addEventListener("pageshow", function (event) {
-            if (event.persisted) {
-                requireAuth();
-            }
-        });
     }
-};
+});
