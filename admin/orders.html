@@ -17,7 +17,7 @@
     <a href="dashboard.html">Dashboard</a>
     <a href="products.html">Products</a>
     <a href="orders.html" class="active">Orders</a>
-    <a href="../frontend/index.html">View Site</a>
+    <a href="./index.html">View Site</a>
   </nav>
 </header>
 
@@ -45,6 +45,11 @@
 </table>
 
 </section>
-
+<script src="js/auth.js"></script>
+    <script>
+     requireAuth();          // Make sure logged in
+     requireRole('admin');   // Only allow admins
+     showUsername();         // Display username if needed
+    </script>
 </body>
 </html>

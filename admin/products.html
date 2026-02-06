@@ -23,8 +23,8 @@
   <nav>
     <a href="dashboard.html">Dashboard</a>
     <a href="products.html" class="active">Products</a>
-    <a href="../frontend/index.html">View Site</a>
-    <a href="logout.php">Logout</a>
+    <a href="/frontend/index.html">View Site</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
   </nav>
 </header>
 
@@ -91,6 +91,11 @@
 
 </section>
 
-
+<script src="js/auth.js"></script>
+    <script>
+     requireAuth();          // Make sure logged in
+     requireRole('admin');   // Only allow admins
+     showUsername();         // Display username if needed
+    </script>
 </body>
 </html>
