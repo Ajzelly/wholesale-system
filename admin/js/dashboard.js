@@ -16,7 +16,7 @@ async function loadDashboardSummary() {
 
     const resRevenue = await fetch('/api/orders/revenue');
     const totalRevenue = await resRevenue.json();
-    document.getElementById('total-revenue').textContent = totalRevenue.amount || '0.00';
+    document.getElementById('total-revenue').textContent = (totalRevenue.revenue || 0).toFixed(2);
 
     // total-feedback handled inside dashboard.html script
   } catch (err) {
@@ -36,10 +36,10 @@ async function loadRecentOrders() {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${order.id}</td>
-        <td>${order.user_name || 'N/A'}</td>
-        <td>${new Date(order.date).toLocaleDateString()}</td>
+        <td>${order.customer || 'N/A'}</td>
+        <td>${new Date(order.order_date).toLocaleDateString()}</td>
         <td>${order.status}</td>
-        <td>${order.total}</td>
+        <td>${order.total_amount || 'undefined'}</td>
       `;
       tbody.appendChild(tr);
     });

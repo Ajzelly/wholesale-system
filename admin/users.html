@@ -10,9 +10,44 @@
       font-family: Arial, sans-serif;
       background: #f8fafc;
       margin: 0;
-      padding: 20px;
+      padding: 0;
       color: #333;
     }
+
+    .admin-header {
+      background: #00bcd4;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .admin-header .logo h2 {
+      margin: 0;
+    }
+
+    .admin-nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+
+    .admin-nav a:hover,
+    .admin-nav a.active {
+      opacity: 0.8;
+      border-bottom: 2px solid white;
+    }
+
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+    }
+
     h1 {
       color: #00bcd4;
     }
@@ -42,8 +77,21 @@
     }
   </style>
 </head>
-<body>
+<body data-auth="true">
+<header class="admin-header">
+	<div class="logo"><h2>Kimusho Admin Panel</h2></div>
+	<nav class="admin-nav">
+	        <a href="dashboard.html">Dashboard</a>
+			<a href="orders.html">Orders</a>
+			<a href="products.html">Products</a>
+			<a href="users.html" class="active">Users</a>
+			<a href="reports.html">Reports</a>
+			
+			<button onclick="logout()" class="logout-btn">Logout</button>
+	</nav>
+</header>
 
+<main class="main-content">
   <h1>Users</h1>
   <div class="user-count">Total Users: <span id="userCount">--</span></div>
 
@@ -98,5 +146,13 @@
 
     document.addEventListener('DOMContentLoaded', loadUsers);
   </script>
+</main>
+
+<script src="js/auth.js"></script>
+<script>
+  requireAuth();          // Make sure logged in
+  requireRole('admin');   // Only allow admins
+  showUsername();         // Display username if needed
+</script>
 </body>
 </html>
