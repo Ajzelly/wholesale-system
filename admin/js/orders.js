@@ -1,73 +1,86 @@
-const table = document.getElementById("ordersTable");
+const ordersTable = document.getElementById("ordersTable");
+const searchInput = document.getElementById("searchTransaction");
 
+// ================== LOAD ORDERS ==================
+async function loadOrders(query = "") {
+  try {
+    const url = query
+      ? `/api/orders/search?q=${encodeURIComponent(query)}`
+      : "/api/orders";
 
-async function loadOrders() {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch orders");
 
-  const res = await fetch("/api/orders");
-  const orders = await res.json();
+    const orders = await res.json();
+    ordersTable.innerHTML = "";
 
-  table.innerHTML = "";
+    if (orders.length === 0) {
+      ordersTable.innerHTML = `<tr><td colspan="8" style="text-align:center;">No orders found</td></tr>`;
+      return;
+    }
 
-  orders.forEach(o => {
-
-    table.innerHTML += `
-
-      <tr>
-
+    orders.forEach(o => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
         <td>${o.id}</td>
-
-        <td>${o.customer}</td>
-
+        <td>${o.transaction_code || ""}</td>
+        <td>${o.customer || ""}</td>
         <td>${Number(o.total_amount).toLocaleString()}</td>
-
         <td>
           <select onchange="updateStatus(${o.id}, this.value)">
-            <option ${o.status=="pending"?"selected":""}>pending</option>
-            <option ${o.status=="confirmed"?"selected":""}>confirmed</option>
-            <option ${o.status=="delivered"?"selected":""}>delivered</option>
-            <option ${o.status=="cancelled"?"selected":""}>cancelled</option>
+            <option ${o.status === "pending" ? "selected" : ""}>pending</option>
+            <option ${o.status === "confirmed" ? "selected" : ""}>confirmed</option>
+            <option ${o.status === "delivered" ? "selected" : ""}>delivered</option>
+            <option ${o.status === "cancelled" ? "selected" : ""}>cancelled</option>
           </select>
         </td>
-
         <td>${new Date(o.order_date).toLocaleString()}</td>
-
         <td>
           <button onclick="deleteOrder(${o.id})">Delete</button>
         </td>
-
-      </tr>
-
-    `;
-
-  });
-
+      `;
+      ordersTable.appendChild(tr);
+    });
+  } catch (err) {
+    console.error(err);
+    ordersTable.innerHTML = `<tr><td colspan="8" style="text-align:center;">Error loading orders</td></tr>`;
+  }
 }
 
-
-async function updateStatus(id, status){
-
-  await fetch(`/api/orders/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status })
-  });
-
-  alert("Status Updated");
-
+// ================== UPDATE STATUS ==================
+async function updateStatus(id, status) {
+  try {
+    const res = await fetch(`/api/orders/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    });
+    if (!res.ok) throw new Error("Failed to update status");
+    alert("Status updated ✅");
+  } catch (err) {
+    console.error(err);
+    alert("Failed to update status ❌");
+  }
 }
 
-
-async function deleteOrder(id){
-
-  if(!confirm("Delete this order?")) return;
-
-  await fetch(`/api/orders/${id}`, {
-    method: "DELETE"
-  });
-
-  loadOrders();
-
+// ================== DELETE ORDER ==================
+async function deleteOrder(id) {
+  if (!confirm("Delete this order?")) return;
+  try {
+    const res = await fetch(`/api/orders/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("Failed to delete order");
+    alert("Order deleted ✅");
+    loadOrders(searchInput.value.trim());
+  } catch (err) {
+    console.error(err);
+    alert("Failed to delete order ❌");
+  }
 }
 
+// ================== SEARCH ==================
+searchInput.addEventListener("input", () => {
+  loadOrders(searchInput.value.trim());
+});
 
+// ================== INITIAL LOAD ==================
 loadOrders();

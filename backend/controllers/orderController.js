@@ -35,31 +35,28 @@ exports.getOrders = async (req,res)=>{
 
 
 // Create order (checkout)
-exports.createOrder = async (req,res)=>{
+// Create order (checkout)
+exports.createOrder = async (req, res) => {
+  try {
+    const { user_id, total_amount, transaction_code } = req.body;
 
-  try{
-
-    const { user_id, total_amount } = req.body;
+    if (!user_id || !total_amount) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
 
     const [result] = await db.query(
-
-      `INSERT INTO orders (user_id,total_amount,status)
-       VALUES (?,?, 'pending')`,
-
-      [user_id, total_amount]
-
+      `INSERT INTO orders (user_id, total_amount, status, transaction_code)
+       VALUES (?, ?, 'pending', ?)`,
+      [user_id, total_amount, transaction_code || null] // save code if provided
     );
 
-    res.json({ success:true, order_id: result.insertId });
-
-  }catch(err){
-
-    console.error("CREATE ORDER:",err);
-    res.status(500).json({error:"Server error"});
-
+    res.json({ success: true, order_id: result.insertId });
+  } catch (err) {
+    console.error("CREATE ORDER:", err);
+    res.status(500).json({ error: "Server error" });
   }
-
 };
+
 
 
 // Update status
@@ -148,3 +145,35 @@ exports.getRecentOrders = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+// orderController.js
+// Search orders by transaction code OR username
+// Search orders by transaction code or username
+// controllers/orderController.js
+// Search orders by transaction code or username
+exports.searchOrders = async (req, res) => {
+  try {
+    const q = `%${req.query.q}%`;
+
+    const [rows] = await db.query(
+      `SELECT orders.*, users.name AS customer
+       FROM orders
+       LEFT JOIN users ON orders.user_id = users.id
+       WHERE orders.transaction_code LIKE ? OR users.name LIKE ?
+       ORDER BY orders.order_date DESC`,
+      [q, q]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("SEARCH ORDERS:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+
+
+
+
+
+

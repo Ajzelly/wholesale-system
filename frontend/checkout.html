@@ -6,46 +6,85 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-        <!-- Product Emoji Background -->
-        <div class="celebration-bg">
-            <span class="emoji darkblue">🧼</span> <!-- soap -->
-            <span class="emoji gold">🥖</span>   <!-- bread/flour -->
-            <span class="emoji pink">📚</span>   <!-- books -->
-            <span class="emoji green">🥛</span>  <!-- milk -->
-            <span class="emoji blue">🍚</span>   <!-- rice/flour -->
-            <span class="emoji orange">🧃</span> <!-- juice/drink -->
-        </div>
+
+    <!-- Product Emoji Background -->
+    <div class="celebration-bg">
+        <span class="emoji darkblue">🧼</span>
+        <span class="emoji gold">🥖</span>
+        <span class="emoji pink">📚</span>
+        <span class="emoji green">🥛</span>
+        <span class="emoji blue">🍚</span>
+        <span class="emoji orange">🧃</span>
+    </div>
+
     <header>
         <h1 style="text-align:center;">Checkout</h1>
     </header>
+
     <main>
         <div style="display:flex; justify-content:flex-start; max-width:700px; margin:0 auto;">
-            <button type="button" onclick="window.history.back()" style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">&larr; Back</button>
+            <button type="button"
+                onclick="window.history.back()"
+                style="margin-bottom:18px;background:#3f72af;color:#fff;border:none;padding:8px 18px;border-radius:5px;cursor:pointer;">
+                &larr; Back
+            </button>
         </div>
+
         <form id="checkout-form">
+
             <h2>Shipping Information</h2>
             <input type="text" name="name" placeholder="Full Name" required>
             <input type="text" name="town" placeholder="Town" required>
+
             <h2>Payment Method</h2>
+
             <label style="margin-right:20px;">
-                <input type="radio" name="payment" value="cash" required> Cash
-            </label>
-            <label>
-                <input type="radio" name="payment" value="mpesa" required> Mpesa
-            </label>
-            <button type="submit">Place Order</button>
+            <input type="radio" name="payment" id="cashRadio" value="cash">
+            <label for="cashRadio">Cash</label>
+
+            <input type="radio" name="payment" id="mpesaRadio" value="mpesa">
+            <label for="mpesaRadio">Mpesa</label>
+
+
+            <!-- Mpesa Details -->
+            <div id="mpesaDetails" style="display:none; margin-top:10px;">
+
+                <label for="mpesaOption">PayBill</label><br>
+                    <P>1. Paybill Number : 522533 </P>
+                    <P>2. Account Number : 7613858 </P>
+                </select>
+
+                <div id="mpesaInstructions" style="margin-top:10px;"></div>
+
+                <div style="margin-top:10px;">
+                    <label for="transactionCode">Mpesa Transaction Code</label><br>
+                    <input
+                        type="text"
+                        id="transactionCode"
+                        placeholder="e.g. QWE123ABC"
+                    >
+                </div>
+
+            </div>
+<br>
+<button style="margin-left: 20px" type="submit">Place Order</button>
         </form>
-        <section id="order-summary">
-            <!-- Order summary will be dynamically rendered here -->
-        </section>
+
+        <section id="order-summary"></section>
+
         <div style="text-align:center; margin-top:18px;">
-            <a href="products.html" style="background:#fff; color:#3f72af; border:1px solid #3f72af; border-radius:6px; padding:12px 24px; font-size:1.05rem; font-weight:500; text-decoration:none; transition:background 0.2s; display:inline-block;">Continue Shopping</a>
+            <a href="products.html"
+               style="background:#fff; color:#3f72af; border:1px solid #3f72af; border-radius:6px; padding:12px 24px; font-size:1.05rem; font-weight:500; text-decoration:none; display:inline-block;">
+                Continue Shopping
+            </a>
         </div>
     </main>
+
     <script src="js/checkout.js"></script>
     <script src="js/auth.js"></script>
     <script>
       requireAuth();
     </script>
+
 </body>
 </html>
