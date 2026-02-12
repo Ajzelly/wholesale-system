@@ -14,32 +14,24 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Show Mpesa section
-  mpesaRadio.addEventListener("change", () => {
-    mpesaDetails.style.display = "block";
-    if (mpesaOption) mpesaOption.required = true;
-    if (transactionCodeInput) transactionCodeInput.required = true;
-  });
-
-  // Hide Mpesa section
-  cashRadio.addEventListener("change", () => {
-    mpesaDetails.style.display = "none";
-    if (mpesaOption) {
-      mpesaOption.value = "";
-      mpesaOption.required = false;
+  const toggleMpesaSection = (show) => {
+    mpesaDetails.style.display = show ? "block" : "none";
+    if (mpesaOption) mpesaOption.required = show;
+    if (transactionCodeInput) transactionCodeInput.required = show;
+    if (!show) {
+      if (mpesaOption) mpesaOption.value = "";
+      if (mpesaInstructions) mpesaInstructions.innerHTML = "";
+      if (transactionCodeInput) transactionCodeInput.value = "";
     }
-    if (mpesaInstructions) mpesaInstructions.innerHTML = "";
-    if (transactionCodeInput) {
-      transactionCodeInput.value = "";
-      transactionCodeInput.required = false;
-    }
-  });
+  };
 
-  // Mpesa instructions
+  mpesaRadio.addEventListener("change", () => toggleMpesaSection(true));
+  cashRadio.addEventListener("change", () => toggleMpesaSection(false));
+
   if (mpesaOption) {
     mpesaOption.addEventListener("change", () => {
-      if (mpesaOption.value === "paybill") {
-        mpesaInstructions.innerHTML = `
+      const instructions = {
+        paybill: `
           <strong>Paybill Instructions</strong>
           <ol>
             <li>Mpesa → Lipa na Mpesa → Paybill</li>
@@ -47,19 +39,17 @@ document.addEventListener("DOMContentLoaded", () => {
             <li>Account: <b>Your Phone Number</b></li>
             <li>Confirm payment</li>
           </ol>
-        `;
-      } else if (mpesaOption.value === "till") {
-        mpesaInstructions.innerHTML = `
+        `,
+        till: `
           <strong>Till Instructions</strong>
           <ol>
             <li>Mpesa → Buy Goods</li>
             <li>Till Number: <b>654321</b></li>
             <li>Confirm payment</li>
           </ol>
-        `;
-      } else {
-        mpesaInstructions.innerHTML = "";
-      }
+        `
+      };
+      mpesaInstructions.innerHTML = instructions[mpesaOption.value] || "";
     });
   }
 });
@@ -67,20 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // ================== ORDER SUMMARY ==================
 function renderOrderSummary() {
   const user = getUser();
-  if (!user) {
-    window.location.href = "login.html";
-    return;
-  }
+  if (!user) return window.location.href = "login.html";
 
   const cartKey = `cart_${user.id}`;
   const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
   const orderSummary = document.getElementById("order-summary");
 
   orderSummary.innerHTML = "";
-  if (cart.length === 0) {
-    orderSummary.innerHTML = "<p>Your cart is empty.</p>";
-    return;
-  }
+  if (!cart.length) return orderSummary.innerHTML = "<p>Your cart is empty.</p>";
 
   let total = 0;
   const ul = document.createElement("ul");
@@ -89,7 +73,6 @@ function renderOrderSummary() {
 
   cart.forEach(item => {
     total += item.price * item.qty;
-
     const li = document.createElement("li");
     li.style.marginBottom = "10px";
     li.innerHTML = `
@@ -110,40 +93,25 @@ checkoutForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = getUser();
-  if (!user) {
-    alert("Login required");
-    return;
-  }
+  if (!user) return alert("Login required");
 
   const cartKey = `cart_${user.id}`;
   const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
-
-  if (cart.length === 0) {
-    alert("Cart is empty");
-    return;
-  }
-
-  let total = 0;
-  cart.forEach(p => total += p.price * p.qty);
+  if (!cart.length) return alert("Cart is empty");
 
   const selectedPayment = document.querySelector('input[name="payment"]:checked');
-  if (!selectedPayment) {
-    alert("Please select a payment method");
-    return;
-  }
+  if (!selectedPayment) return alert("Please select a payment method");
 
   const paymentMethod = selectedPayment.value;
-  const transactionCodeInput = document.getElementById("transactionCode");
-  const transactionCode = transactionCodeInput?.value.trim() || null;
-
-  // Mpesa requires transaction code
+  const transactionCode = document.getElementById("transactionCode")?.value.trim() || null;
   if (paymentMethod === "mpesa" && !transactionCode) {
     alert("Please enter your Mpesa transaction code.");
-    transactionCodeInput.focus();
+    document.getElementById("transactionCode").focus();
     return;
   }
 
-  // SEND TO BACKEND
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
   try {
     const res = await fetch("/api/orders", {
       method: "POST",
@@ -151,20 +119,83 @@ checkoutForm.addEventListener("submit", async (e) => {
       body: JSON.stringify({
         user_id: user.id,
         total_amount: total,
-        transaction_code: paymentMethod === "mpesa" ? transactionCode : null
+        transaction_code: paymentMethod === "mpesa" ? transactionCode : null,
+        items: cart // <-- send entire cart to backend
       })
     });
 
     if (!res.ok) {
       const err = await res.json();
-      alert("Order failed ❌ " + (err.error || ""));
-      return;
+      return alert("Order failed ❌ " + (err.error || ""));
     }
 
     localStorage.removeItem(cartKey);
     alert("Order placed successfully ✅");
     window.location.href = "dashboard.html";
+
   } catch (err) {
+    console.error("PLACE ORDER ERROR:", err);
+    alert("Order failed ❌ Check console for details");
+  }
+});
+
+const loadingEl = document.getElementById("order-loading");
+
+checkoutForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const user = getUser();
+  if (!user) return alert("Login required");
+
+  const cartKey = `cart_${user.id}`;
+  const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+  if (!cart.length) return alert("Cart is empty");
+
+  const selectedPayment = document.querySelector('input[name="payment"]:checked');
+  if (!selectedPayment) return alert("Please select a payment method");
+
+  const paymentMethod = selectedPayment.value;
+  const transactionCode = document.getElementById("transactionCode")?.value.trim() || null;
+  if (paymentMethod === "mpesa" && !transactionCode) {
+    alert("Please enter your Mpesa transaction code.");
+    document.getElementById("transactionCode").focus();
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  try {
+    // ✅ Show loader & disable button
+    loadingEl.style.display = "block";
+    checkoutForm.querySelector("button[type='submit']").disabled = true;
+
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user.id,
+        total_amount: total,
+        transaction_code: paymentMethod === "mpesa" ? transactionCode : null,
+        items: cart
+      })
+    });
+
+    loadingEl.style.display = "none";
+    checkoutForm.querySelector("button[type='submit']").disabled = false;
+
+    if (!res.ok) {
+      const err = await res.json();
+      return alert("Order failed ❌ " + (err.error || ""));
+    }
+
+    localStorage.removeItem(cartKey);
+    alert("Order placed successfully ✅");
+    window.location.href = "dashboard.html";
+
+  } catch (err) {
+    loadingEl.style.display = "none";
+    checkoutForm.querySelector("button[type='submit']").disabled = false;
+
     console.error("PLACE ORDER ERROR:", err);
     alert("Order failed ❌ Check console for details");
   }

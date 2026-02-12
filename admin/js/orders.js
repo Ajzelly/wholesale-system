@@ -25,6 +25,12 @@ async function loadOrders(query = "") {
         <td>${o.id}</td>
         <td>${o.transaction_code || ""}</td>
         <td>${o.customer || ""}</td>
+        <td>${o.items && o.items.length > 0
+          ? o.items.map(item =>
+            `${item.name} (x${item.quantity})`
+          ).join("<br>")
+          : "No items"}
+        </td>
         <td>${Number(o.total_amount).toLocaleString()}</td>
         <td>
           <select onchange="updateStatus(${o.id}, this.value)">
