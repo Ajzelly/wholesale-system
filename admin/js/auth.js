@@ -7,18 +7,32 @@ function getUser() {
     return JSON.parse(localStorage.getItem("user"));
 }
 
-// Check if user is logged in (use on ALL protected pages)
+// Check if user is logged in (ADMIN PAGES ONLY)
 function requireAuth() {
     const token = localStorage.getItem("token");
     const user = getUser();
 
-    if (!token || !user) {
+    if (!token || !user || user.role !== "admin") {
         localStorage.clear();
         window.location.replace("/index.html");
     }
 }
 
-// Redirect logged-in users away from login/register pages
+// Role-based page protection
+function requireRole(requiredRole) {
+    const user = getUser();
+
+    if (!user) {
+        logout();
+        return;
+    }
+
+    if (requiredRole && user.role !== requiredRole) {
+        window.location.href = "/index.html";
+    }
+}
+
+// Redirect logged-in users away from admin login page
 function redirectIfLoggedIn() {
     const token = localStorage.getItem("token");
     const user = getUser();
@@ -32,7 +46,7 @@ function redirectIfLoggedIn() {
     }
 }
 
-// Show username anywhere
+// Show username
 function showUsername() {
     const user = getUser();
     const el = document.getElementById("username");
@@ -41,34 +55,14 @@ function showUsername() {
     }
 }
 
-// Logout (works everywhere)
+// Logout (ADMIN)
 function logout() {
     localStorage.clear();
     window.location.replace("/index.html");
 }
 
 // --------------------------
-// Role-based page protection
-// --------------------------
-function requireRole(requiredRole) {
-    const user = getUser();
-
-    if (!user) {
-        logout();
-        return;
-    }
-
-    if (requiredRole && user.role !== requiredRole) {
-        window.location.replace(
-            user.role === "admin"
-                ? "/admin/dashboard.html"
-                : "/products.html"
-        );
-    }
-}
-
-// --------------------------
-// Prevent cached access (BACK button fix)
+// Extra protection (BACK button fix)
 // --------------------------
 window.addEventListener("pageshow", function (event) {
     if (event.persisted) {

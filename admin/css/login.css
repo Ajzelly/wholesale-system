@@ -1,0 +1,123 @@
+/* =========================
+   LOGIN / REGISTER STYLING
+========================= */
+
+/* General Body Setup */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f4f6fb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Container for login form */
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  padding: 35px 30px;
+  text-align: center;
+}
+
+/* Form Title */
+.auth-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2f5fa7;
+  margin-bottom: 20px;
+}
+
+/* Optional subtitle */
+.subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* Form Labels */
+.auth-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Inputs */
+.auth-form input[type="text"],
+.auth-form input[type="password"],
+.auth-form input[type="email"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 18px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f9fafc;
+  transition: border 0.2s;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #2f5fa7;
+}
+
+/* Submit Button */
+.auth-form .auth-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2f5fa7;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-form .auth-btn:hover {
+  background-color: #244b85;
+}
+
+/* Switch link for register / login */
+.auth-form .switch-link {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #3f72af;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.auth-form .switch-link:hover {
+  color: #112d4e;
+  text-decoration: underline;
+}
+
+/* Messages */
+#message {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  color: #155724;
+  background: #e6ffed;
+  border: 1px solid #b7e4c7;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.error-message {
+  color: #721c24;
+  background: #ffeaea;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 8px 12px;
+}

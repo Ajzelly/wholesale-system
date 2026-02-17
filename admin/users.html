@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Users | Kimusho</title>
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .admin-header {
+      background: #00bcd4;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .admin-header .logo h2 {
+      margin: 0;
+    }
+
+    .admin-nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+
+    .admin-nav a:hover,
+    .admin-nav a.active {
+      opacity: 0.8;
+      border-bottom: 2px solid white;
+    }
+
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px 50px;
+    }
+
+    h1 {
+      color: #00bcd4;
+    }
+    .user-count {
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: #00bcd4;
+      color: white;
+    }
+    tr:hover {
+      background: #f1f9fb;
+    }
+  </style>
+</head>
+<body data-auth="true">
+<header class="admin-header">
+  <div class="logo"><h2>Kimusho Admin Panel</h2></div>
+  <nav class="admin-nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="orders.html">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="users.html" class="active">Users</a>
+    <a href="reports.html">Reports</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </nav>
+</header>
+
+<main class="main-content">
+  <h1>Users</h1>
+  <div class="user-count">Total Users: <span id="userCount">--</span></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>            <!-- Added -->
+        <th>Address</th>          <!-- Added -->
+        <th>Joined On</th>
+      </tr>
+    </thead>
+    <tbody id="usersTableBody">
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    async function loadUsers() {
+      try {
+        // Load user count
+        const resCount = await fetch('/api/users/count');
+        const countData = await resCount.json();
+        document.getElementById('userCount').textContent = countData.count || 0;
+
+        // Load all users
+        const resUsers = await fetch('/api/users');
+        const users = await resUsers.json();
+
+        const tbody = document.getElementById('usersTableBody');
+        tbody.innerHTML = '';
+
+        if (users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No users found</td></tr>';
+          return;
+        }
+
+        users.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email || '-'}</td>
+            <td>${user.phone || '-'}</td>
+            <td>${user.address || '-'}</td>
+            <td>${new Date(user.created_at).toLocaleDateString()}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error('Error loading users:', error);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadUsers);
+  </script>
+</main>
+
+<script src="js/auth.js"></script>
+<script>
+  requireAuth();          // Make sure logged in
+  requireRole('admin');   // Only allow admins
+  showUsername();         // Display username if needed
+</script>
+</body>
+</html>

@@ -1,52 +1,82 @@
 const express = require('express');
 const router = express.Router();
+
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+
+const db = require('../config/db');
 const productController = require('../controllers/productController');
 
-// Multer setup for image upload
-// __dirname = /path/to/backend/routes
-// So we need to go up 2 levels: .. -> backend, .. -> wholesale-system, then into backend/uploads
-const uploadDir = path.join(__dirname, '..', '..', 'backend', 'uploads');
 
-console.log('📁 Upload directory:', uploadDir);
+/* ===============================
+   UPLOADS SETUP
+================================ */
 
-// Create uploads directory if it doesn't exist
+const uploadDir = path.join(__dirname, '..', 'uploads');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
-  console.log('✅ Created uploads directory');
+  console.log('✅ Upload folder created');
 }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadDir);
   },
+
   filename: (req, file, cb) => {
     const filename = Date.now() + '_' + file.originalname;
-    console.log('💾 Saving file:', filename);
     cb(null, filename);
-  },
+  }
 });
 
-const upload = multer({ 
+const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    // Only allow image files
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
-      cb(new Error('Only image files are allowed'), false);
+      cb(new Error('Images only'), false);
     }
   }
 });
 
-// Routes
+
+/* ===============================
+   ROUTES
+================================ */
+
+// Get all products
 router.get('/', productController.getAllProducts);
 
+
+// Add product
 router.post('/', upload.single('image'), productController.addProduct);
 
+
+// Delete product
 router.delete('/:id', productController.deleteProduct);
+
+
+// Get products count (FOR ADMIN DASHBOARD)
+router.get('/count', async (req, res) => {
+  try {
+    const [rows] = await db.query(
+      'SELECT COUNT(*) AS count FROM products'
+    );
+
+    res.json(rows[0]);
+
+  } catch (err) {
+    console.error('❌ PRODUCT COUNT ERROR:', err);
+
+    res.status(500).json({
+      error: 'Server error'
+    });
+  }
+});
+
 
 module.exports = router;

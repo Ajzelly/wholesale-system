@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin | Orders</title>
+
+<link rel="stylesheet" href="css/admin.css">
+<script defer src="js/orders.js"></script>
+
+</head>
+<body>
+
+<header class="admin-header">
+  <h2>Kimusho Admin Panel</h2>
+
+  <nav class="admin-nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="orders.html" class="active">Orders</a>
+    <a href="products.html">Products</a>
+    <a href="/index.html">View Site</a>
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </nav>
+</header>
+
+
+<section class="admin-container">
+<input type="text" id="searchTransaction" placeholder="Search by transaction code/Username ">
+
+<h3 class="admin-title">Customer Orders</h3>
+
+<table class="admin-table">
+
+<thead>
+<tr>
+  <th>ID</th>
+  <th>Transaction Code</th>
+  <th>Customer</th>
+  <th>Products</th>
+  <th>Total (KSh)</th>
+  <th>Status</th>
+  <th>Date</th>
+  <th>Action</th>
+</tr>
+</thead>
+
+<tbody id="ordersTable">
+</tbody>
+
+</table>
+
+</section>
+<script src="js/auth.js"></script>
+    <script>
+     requireAuth();          // Make sure logged in
+     requireRole('admin');   // Only allow admins
+     showUsername();         // Display username if needed
+    </script>
+</body>
+</html>
